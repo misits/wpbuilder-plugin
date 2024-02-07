@@ -1,11 +1,11 @@
 <?php
 
-namespace Toolkit\models;
+namespace WPbuilder\models;
 
 // Prevent direct access.
 defined( 'ABSPATH' ) or exit;
 
-use Toolkit\utils\WPML;
+use WPbuilder\utils\WPML;
 
 abstract class OptionPage
 {

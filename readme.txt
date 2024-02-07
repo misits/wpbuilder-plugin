@@ -1,24 +1,32 @@
-=== Wordpres Toolkit ===
-Contributors: hawaii.do
-Tags: Wordpress Theme plugin
+=== WPbuilder Plugin ===
+Contributors: Martin IS IT Services
+Tags: wpbuilder, theme, plugin, custom post type, block, gutenberg, menu, misits
 Requires at least: 5.0
-Tested up to: 6.4.2
+Tested up to: 6.4.3
 Requires PHP: 8.0
-Stable tag: 1.0.0
+License: GPL v2 or later
 
-Wordpress Toolkit is a plugin that provides some useful functions for Wordpress Theme development.
+WPbuilder est un plugin qui fournit des fonctions utiles pour le développement de thèmes Wordpress.
 
 == Description ==
+Ce plugin permet de charger les fonctionnalités de base du thème.
+
+- Activation du mode maintenance
+- Creation de custom post type (CPT) et activation/désactivation de ceux-ci
+- Creation de block gutenberg et activation/désactivation de ceux-ci
+- Gestion des menus wordpress
 
 == Installation ==
+Télécharger le plugin [wpbuilder-plugin](https://github.com/misits/wpbuilder-plugin) en tant que zip et l'installer via l'administration de Wordpress.
 
-== Frequently Asked Questions ==
-
-== Screenshots ==
+Le theme compatible avec le plugin est [wpbuilder-boilerplate](https://github.com/misits/wpbuilder-boilerplate).
 
 == Changelog ==
+
 = 1.0.0 =
 - Initial release.
 
 == Upgrade Notice ==
-Nothing
+Le plugin integere un système de mise à jour basé sur [plugin-update-checker](https://github.com/YahnisElsts/plugin-update-checker) et est lié au dépôt git du plugin sur https://github.com/misits/wpbuilder-plugin.
+
+Pour mettre à jour le plugin, il faut changer la version `readme.txt` et `wpbuilder-plugin.php` et pousser les changements sur le dépôt git. Le plugin detectera automatiquement les mis à jour sur les sites utilisant le plugin et proposera la mise à jour.

@@ -1,13 +1,13 @@
 <?php
 
-namespace Toolkit\models;
+namespace WPbuilder\models;
 
 // Prevent direct access.
 defined( 'ABSPATH' ) or exit;
 
-use Toolkit\models\AbstractTag;
-use Toolkit\models\AbstractCategory;
-use Toolkit\models\PostType;
+use WPbuilder\models\AbstractTag;
+use WPbuilder\models\AbstractCategory;
+use WPbuilder\models\PostType;
 
 abstract class AbstractPost extends PostType
 {

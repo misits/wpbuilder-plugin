@@ -1,6 +1,6 @@
 <?php
 
-namespace Toolkit;
+namespace WPbuilder;
 
 // Prevent direct access.
 defined( 'ABSPATH' ) or exit;
@@ -11,4 +11,4 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 // Delete options.
-delete_option( 'wordpress-toolkit-plugin' );
+delete_option( 'wordpress-wpbuilder-plugin' );

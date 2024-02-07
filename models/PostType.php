@@ -1,15 +1,15 @@
 <?php
 
-namespace Toolkit\models;
+namespace WPbuilder\models;
 
 // Prevent direct access.
 defined( 'ABSPATH' ) or exit;
 
-use Toolkit\utils\WPML;
-use Toolkit\models\Media;
-use Toolkit\models\File;
-use Toolkit\models\Page;
-use Toolkit\utils\QueryBuilder;
+use WPbuilder\utils\WPML;
+use WPbuilder\models\Media;
+use WPbuilder\models\File;
+use WPbuilder\models\Page;
+use WPbuilder\utils\QueryBuilder;
 
 abstract class PostType
 {
@@ -29,9 +29,9 @@ abstract class PostType
      */
     public static function new(string $type, int $id)
     {
-        $model = '\\Toolkit\\models\\' . ucfirst($type);
+        $model = '\\WPbuilder\\models\\' . ucfirst($type);
         if (!class_exists($model)) {
-            $model = '\\Toolkit\\models\\custom\\' . ucfirst($type);
+            $model = '\\WPbuilder\\models\\custom\\' . ucfirst($type);
 
             if (!class_exists($model)) {
                 trigger_error("Post type $type does not exist.", E_USER_WARNING);

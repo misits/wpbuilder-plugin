@@ -1,13 +1,13 @@
 <?php
 
-namespace Toolkit\utils;
+namespace WPbuilder\utils;
 
 // Prevent direct access.
 defined( 'ABSPATH' ) or exit;
 
 class PDFService
 {
-    const HOST = "https://pdf.hawaii.do";
+    const HOST = "https://pdf.misits.ch";
 
     public static function link($model, $name, $params = [])
     {

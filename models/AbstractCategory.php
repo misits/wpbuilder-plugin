@@ -1,6 +1,6 @@
 <?php
 
-namespace Toolkit\models;
+namespace WPbuilder\models;
 
 // Prevent direct access.
 defined( 'ABSPATH' ) or exit;

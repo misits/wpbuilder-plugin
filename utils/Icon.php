@@ -1,6 +1,6 @@
 <?php
 
-namespace Toolkit\utils;
+namespace WPbuilder\utils;
 
 // Prevent direct access.
 defined('ABSPATH') or exit;

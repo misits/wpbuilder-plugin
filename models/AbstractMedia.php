@@ -1,11 +1,11 @@
 <?php
 
-namespace Toolkit\models;
+namespace WPbuilder\models;
 
 // Prevent direct access.
 defined( 'ABSPATH' ) or exit;
 
-use Toolkit\utils\Size;
+use WPbuilder\utils\Size;
 
 abstract class AbstractMedia extends PostType
 {

@@ -1,25 +1,30 @@
-.dashicons-hi:before {
-    content:url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzM1M182KSI+CjxwYXRoIGQ9Ik00Ljg1Mzk4IDRDNS4yNTIyMSA0IDUuNDUxMzMgNC4yMTQxMiA1LjQ1MTMzIDQuNTUwNTlWMTAuNTE1M0M1LjQ1MTMzIDEwLjg4MjQgNS42ODM2MyAxMS4wNjU5IDYuMDQ4NjcgMTEuMDY1OUg3Ljk3MzQ1QzguMzcxNjggMTEuMDY1OSA4LjU3MDggMTAuODUxOCA4LjU3MDggMTAuNTE1M1Y0LjU1MDU5QzguNTcwOCA0LjE4MzUzIDguODAzMSA0IDkuMTY4MTQgNEgxMS40MjQ4QzExLjgyMyA0IDEyLjAyMjEgNC4xODM1MyAxMi4wMjIxIDQuNTUwNTlWMTdIOC41NzA4VjE0LjgyODJDOC41NzA4IDE0LjQ2MTIgOC4zNzE2OCAxNC4yNzc2IDcuOTczNDUgMTQuMjc3Nkg2LjA0ODY3QzUuNjUwNDQgMTQuMjc3NiA1LjQ1MTMzIDE0LjQ2MTIgNS40NTEzMyAxNC44MjgyVjE3SDJWNC41NTA1OUMyIDQuMTgzNTMgMi4xOTkxMiA0IDIuNTk3MzUgNEg0Ljg1Mzk4WiIgZmlsbD0iI0E3QUFBRCIvPgo8cGF0aCBkPSJNMTYuNDAyNiA0QzE2LjgwMDggNCAxNi45OTk5IDQuMTgzNTMgMTYuOTk5OSA0LjU1MDU5VjE3SDEzLjU4MThWNC41NTA1OUMxMy41ODE4IDQuMTgzNTMgMTMuODE0MSA0IDE0LjE3OTEgNEgxNi40MDI2WiIgZmlsbD0iI0E3QUFBRCIvPgo8L2c+CjxkZWZzPgo8Y2xpcFBhdGggaWQ9ImNsaXAwXzM1M182Ij4KPHJlY3Qgd2lkdGg9IjE1IiBoZWlnaHQ9IjEzIiBmaWxsPSJ3aGl0ZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMiA0KSIvPgo8L2NsaXBQYXRoPgo8L2RlZnM+Cjwvc3ZnPgo=);
+.dashicons-misits:before {
+    content:url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggb3BhY2l0eT0iMC43NSIgZD0iTTEyLjQwMDQgNUgxNi40ODQ3TDE3Ljc1NTggNy4yMDExN0wxNy4zMDAzIDcuOTkwMzhMMTUuNzE4NCAxMC43MzEzTDE0LjQ0NDkgOC41MjY0NkwxNC40NDI2IDguNTIxNjVMMTIuNDAwNCA1WiIgZmlsbD0iI0E3QUFBRCIvPgo8cGF0aCBkPSJNMTcuNzU1MyA3LjIwMTE3TDE4LjIxMDggNy45OTAzOEwxOS43OTI3IDEwLjczMDFMMTkuMzM3MiAxMS41MjA0TDE3LjMyNzYgMTQuOTk5OUgxMy4yNTI5TDE1LjI1NDIgMTEuNTMyNUwxNS4yNjEzIDExLjUyMDRMMTUuNzE4IDEwLjczMTNMMTcuMjk5OSA3Ljk5MDM4TDE3Ljc1NTMgNy4yMDExN1oiIGZpbGw9IiNBN0FBQUQiLz4KPHBhdGggZD0iTTUuNzczNDYgNUg5Ljg1Nzc4TDExLjEyODggNy4yMDExN0wxMS41ODQzIDcuOTkwMzhMMTMuMTY2MiAxMC43MzAxTDEyLjcxMDggMTEuNTIwNEwxMC43MDExIDE1SDYuNjI2NTJMOC42Mjc2NiAxMS41MzI1TDguNjM0OTIgMTEuNTIwNEw5LjA5MTQ5IDEwLjczMTNWMTAuNzMwMUw3LjgxODA3IDguNTI2NDZMNy44MTU2MiA4LjUyMTY1TDYuMDg0MzIgMTEuNTIwNEw0LjA3NDcgMTVIMEwyLjAwMTIyIDExLjUzMjVMMi4wMDg0IDExLjUyMDRMNC4wNDY5NyA3Ljk5MDM4TDUuNzczNDYgNVoiIGZpbGw9IiNBN0FBQUQiLz4KPC9zdmc+Cg==);
     height: 20px;
     width: 20px;
+    transform: rotate(180deg);
 }
 
+#create-block-form .fields,
 #create-model-form .fields {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 1rem;
 }
 
+#create-block-form .field,
 #create-model-form .field {
     display: flex;
     flex-direction: column;
 }
 
+#create-block-form .field--submit,
 #create-model-form .field--submit {
     margin-top: 1.5rem;
     width: fit-content;
 }
 
+#create-block-form .fields label,
 #create-model-form .fields label {
     font-weight: bold;
     margin-bottom: 0.5rem;
@@ -38,7 +43,75 @@
     opacity: 0;
 }
 
+.wpbuilder-models .model {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem 0.5rem 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+/* General label styling */
+.wpbuilder-models .model {
+    display: flex;
+    align-items: center; 
+    gap: 10px; 
+    cursor: pointer; 
+    padding: 8px; 
+    border-radius: 4px;
+}
+
+/* Custom checkbox styling */
+.wpbuilder-models .model input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: #f0f0f0;
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 100%;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+}
+
+.wpbuilder-models .model input[type="checkbox"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #f0f0f0;
+}
+
+
+/* Checkbox checked state styling */
+.wpbuilder-models .model input[type="checkbox"]:checked {
+    background-color: rgba(34, 113, 177, .7);
+    border-color: #2271b1;
+}
+
+/* Checked state icon - using a pseudo-element for the checkmark */
+.wpbuilder-models .model input[type="checkbox"]:checked::before {
+    content: ""; 
+    color: white; 
+    font-size: 16px; 
+    line-height: 1; 
+    display: block; 
+    text-align: center; 
+    margin: 0 auto;
+    height: 20px;
+    width: 20px;
+}
+
+/* Dashicon and text styling */
+.wpbuilder-models .model .wp-menu-image {
+    line-height: 1; 
+    font-size: 20px;
+}
+
+
 @media screen and (max-width: 768px) {
+    #wpbuilder-settings,
+    #create-block-form .fields,
     #create-model-form .fields {
         grid-template-columns: 1fr;
     }

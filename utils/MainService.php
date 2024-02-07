@@ -1,11 +1,11 @@
 <?php
 
-namespace Toolkit\utils;
+namespace WPbuilder\utils;
 
 // Prevent direct access.
 defined('ABSPATH') or exit;
 
-use Toolkit\utils\AssetService;
+use WPbuilder\utils\AssetService;
 
 class MainService
 {
@@ -20,6 +20,7 @@ class MainService
         self::upload_limit();
         self::templates_directory();
         self::maintenance_mode();
+        self::hide_wp_version();
     }
 
     public static function maintenance_mode()
@@ -29,7 +30,7 @@ class MainService
             // if url is not wp-login.php and not wp-admin redirect to maintenance page
             if (!in_array($GLOBALS['pagenow'], ['wp-login.php', 'wp-register.php']) && !is_user_logged_in() && !is_admin()) {
                 // load custom maintenance page
-                include(WP_TOOLKIT_DIR . '/views/maintenance.php');
+                include(WPBUILDER_DIR . '/views/maintenance.php');
                 exit;
             }
         }
@@ -40,7 +41,7 @@ class MainService
         // Hook into the template_include filter
         add_filter('template_include', function ($template) {
 
-            $views_path = WP_TOOLKIT_THEME_VIEWS_PATH;
+            $views_path = WPBUILDER_THEME_VIEWS_PATH;
             $custom_template = $template;
 
             if (is_singular()) {
@@ -117,27 +118,29 @@ class MainService
     public static function admin_menu()
     {
         add_action('admin_init', function () {
-            register_setting('wordpress-toolkit-plugin', 'custom_menu_settings');
-            register_setting('wordpress-toolkit-plugin', 'maintenance_mode');
+            register_setting('wordpress-wpbuilder-plugin', 'custom_menu_settings');
+            register_setting('wordpress-wpbuilder-plugin', 'maintenance_mode');
+            register_setting('wordpress-wpbuilder-plugin', 'upload_size_limit', 'intval');
+            register_setting('wordpress-wpbuilder-plugin', 'remove_woocommcerce_styles');
         });
         add_action('admin_menu', function () {
             add_menu_page(
-                'Toolkit',
-                'Toolkit',
+                'WPbuilder',
+                'WPbuilder',
                 'edit_theme_options',
-                'toolkit',
-                [self::class, 'display_toolkit_page'],
-                'dashicons-hi',
+                'wpbuilder',
+                [self::class, 'display_wpbuilder_page'],
+                'dashicons-misits',
                 2
             );
 
             // Add a submenu for settings
             add_submenu_page(
-                'toolkit', // Parent menu slug
+                'wpbuilder', // Parent menu slug
                 'Hide menu items', // Page title
                 'Hide menu items', // Menu title
                 'edit_theme_options',
-                'toolkit-hide-menu-items', // Menu slug
+                'wpbuilder-hide-menu-items', // Menu slug
                 [self::class, 'display_settings_page'] // Callback function to display the settings page
             );
         });
@@ -149,7 +152,7 @@ class MainService
         add_filter(
             "upload_size_limit",
             function ($_size) {
-                return AssetService::config("upload_size_limit", 5242880);
+                return AssetService::config("upload_size_limit", get_option("upload_size_limit", 5242880));
             },
             20
         );
@@ -224,7 +227,7 @@ class MainService
             add_filter(
                 "admin_footer_text",
                 function () {
-                    echo 'Propulsé par <a href="https://hawaii.do/" target="_blank">Hawaii Interactive</a>';
+                    echo 'Propulsé par <a href="https://misits.ch/" target="_blank">Martin IS IT Services</a>';
                 },
                 11
             );
@@ -359,6 +362,12 @@ class MainService
         }
     }
 
+    public static function hide_wp_version()
+    {
+        remove_action('wp_head', 'wp_generator');
+        add_filter('the_generator', '__return_false');
+    }
+
     public static function display_settings_page()
     {
         // Define the menu items to be managed
@@ -378,7 +387,7 @@ class MainService
         // Check if the form was submitted
         if (isset($_POST['submit'])) {
             if (!isset($_POST['custom_menu_settings_nonce']) || !wp_verify_nonce($_POST['custom_menu_settings_nonce'], 'custom_menu_settings_action')) {
-                print 'Sorry, your nonce did not verify.';
+                print _e('Sorry, your nonce did not verify.');
                 exit;
             } else {
                 // Save the user's choices to options
@@ -402,8 +411,8 @@ class MainService
         // Output the settings form
 ?>
         <div class="wrap">
-            <h2>Toolkit Settings</h2>
-            <p><?= __('Check the boxes below to hide the corresponding menu items.', 'toolkit') ?></p>
+            <h2><?php _e('Hide menu items', 'wpbuilder') ?></h2>
+            <p><?php _e('Check the boxes below to hide the corresponding menu items.', 'wpbuilder') ?></p>
             <form method="post">
                 <?php wp_nonce_field('custom_menu_settings_action', 'custom_menu_settings_nonce'); ?>
 
@@ -428,85 +437,131 @@ class MainService
                     ?>
                 </table>
                 <p class="submit">
-                    <input type="submit" name="submit" class="button-primary" value="Save Changes">
+                    <input type="submit" name="submit" class="button-primary" value="<?php _e('Save changes', 'wpbuilder') ?>">
                 </p>
             </form>
         </div>
     <?php
     }
 
-    public static function display_toolkit_page()
+    public static function display_wpbuilder_page()
     {
 
         if (isset($_POST['submit'])) {
-            if (!isset($_POST['maintenance_mode_nonce']) || !wp_verify_nonce($_POST['maintenance_mode_nonce'], 'maintenance_mode_action')) {
-                print 'Sorry, your nonce did not verify.';
+            if (isset($_POST['maintenance_mode_nonce']) && !wp_verify_nonce($_POST['maintenance_mode_nonce'], 'maintenance_mode_action')) {
+                print _e('Sorry, your nonce did not verify.');
                 exit;
             } else {
-                // Save the user's choices to options
-                $options = [];
+                update_option('maintenance_mode', isset($_POST['maintenance_mode']) ? 1 : 0);
+            }
 
-                $options['maintenance_mode'] = isset($_POST['maintenance_mode']) ? 1 : 0;
+            if (isset($_POST['max_upload_size_nonce']) && !wp_verify_nonce($_POST['max_upload_size_nonce'], 'max_upload_size_action')) {
+                print _e('Sorry, your nonce did not verify.');
+                exit;
+            } else {
+                update_option('upload_size_limit', isset($_POST['upload_size_limit']) ? intval($_POST['upload_size_limit']) : 5242880);
+            }
 
-                update_option('maintenance_mode', $options['maintenance_mode']);
+            if (isset($_POST['remove_woocommcerce_styles_nonce']) && !wp_verify_nonce($_POST['remove_woocommcerce_styles_nonce'], 'remove_woocommcerce_styles_action')) {
+                print _e('Sorry, your nonce did not verify.');
+                exit;
+            } else {
+                update_option('remove_woocommcerce_styles', isset($_POST['remove_woocommcerce_styles']) ? 1 : 0);
             }
         }
 
     ?>
         <div class="wrap">
-            <h1>Toolkit</h1>
+            <h1>WPbuilder</h1>
 
-            <div class="current-theme">
-                <h2>Theme details</h2>
+            <div id="wpbuilder-settings">
+            <div class="settings current-theme">
+                <h2><?php _e('Current theme', 'wpbuilder'); ?></h2>
                 <p>
-                    <strong>Name:</strong>
+                    <strong><?php _e('Name', 'wpbuilder'); ?>:</strong>
                     <?php
-                    if (WP_TOOLKIT_THEME_PATH) {
-                        echo esc_html(basename(WP_TOOLKIT_THEME_PATH));
+                    if (WPBUILDER_THEME_PATH) {
+                        echo esc_html(basename(WPBUILDER_THEME_PATH));
                     } else {
                         echo 'None';
                     }
                     ?>
                 </p>
                 <p>
-                    <strong>URL:</strong>
+                    <strong><?php _e('URL', 'wpbuilder') ?>:</strong>
                     <?php
-                    if (WP_TOOLKIT_THEME_URL) {
-                        echo esc_html(WP_TOOLKIT_THEME_URL);
+                    if (WPBUILDER_THEME_URL) {
+                        echo esc_html(WPBUILDER_THEME_URL);
                     } else {
                         echo 'None';
                     }
                     ?>
                 </p>
                 <p>
-                    <strong>Directory:</strong>
+                    <strong><?php _e('Directory', 'wpbuilder'); ?>:</strong>
                     <?php
-                    if (WP_TOOLKIT_THEME_PATH) {
-                        echo esc_html(WP_TOOLKIT_THEME_PATH);
+                    if (WPBUILDER_THEME_PATH) {
+                        echo esc_html(WPBUILDER_THEME_PATH);
                     } else {
                         echo 'None';
                     }
                     ?>
                 </p>
             </div>
-
-
-            <hr />
-
-            <div class="maintenance-mode">
-                <h2>Maintenance mode</h2>
+            <!-- Maintenance mode -->
+            <div class="settings maintenance-mode">
+                <hr />
+                <h2><?php _e('Maintenance mode', 'wpbuilder'); ?></h2>
                 <form method="post">
                     <?php wp_nonce_field('maintenance_mode_action', 'maintenance_mode_nonce'); ?>
                     <p>
                         <label for="maintenance_mode">
                             <input type="checkbox" name="maintenance_mode" id="maintenance_mode" value="1" <?php checked(get_option('maintenance_mode', 0), 1); ?>>
-                            <?= __('Enable maintenance mode', 'toolkit') ?>
+                            <?php _e('Enable maintenance mode', 'wpbuilder') ?>
                         </label>
                     </p>
                     <p class="submit">
                         <input type="submit" name="submit" class="button-primary" value="Save Changes">
                     </p>
                 </form>
+                <hr />
+            </div>
+            <!-- Max upload size -->
+            <div class="settings max-upload-size">
+                <h2><?php _e('Max upload size', 'wpbuilder'); ?></h2>
+                <form method="post">
+                    <?php wp_nonce_field('max_upload_size_action', 'max_upload_size_nonce'); ?>
+                    <p>
+                        <label for="upload_size_limit">
+                            <?php _e('Set the maximum upload size (Bytes)', 'wpbuilder'); ?>:
+                            <input type="number" name="upload_size_limit" id="upload_size_limit" value="<?php echo get_option('upload_size_limit', 5242880); ?>">
+                        </label>
+                    </p>
+                    <p class="submit">
+                        <input type="submit" name="submit" class="button-primary" value="Save Changes">
+                    </p>
+                </form>
+                <hr />
+            </div>
+            <?php if (WooService::is_active()) { ?>
+                <!-- Remove WooCommerce styles -->
+                <div class="settings remove-woocommerce-styles">
+                    <h2><?php _e('Remove WooCommerce styles', 'wpbuilder'); ?></h2>
+                    <form method="post">
+                        <?php wp_nonce_field('remove_woocommcerce_styles_action', 'remove_woocommcerce_styles_nonce'); ?>
+                        <p>
+                            <label for="remove_woocommcerce_styles">
+                                <input type="checkbox" name="remove_woocommcerce_styles" id="remove_woocommcerce_styles" value="1" <?php checked(get_option('remove_woocommcerce_styles', 0), 1); ?>>
+                                <?php _e('Remove WooCommerce styles', 'wpbuilder') ?>
+                            </label>
+                        </p>
+                        <p class="submit">
+                            <input type="submit" name="submit" class="button-primary" value="Save Changes">
+                        </p>
+                    </form>
+                    <hr />
+                </div>
+            <?php } ?>
             </div>
         </div>
 <?php

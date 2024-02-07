@@ -1,6 +1,6 @@
 <?php
 
-namespace Toolkit\routes;
+namespace WPbuilder\routes;
 
 // Prevent direct access.
 defined( 'ABSPATH' ) or exit;

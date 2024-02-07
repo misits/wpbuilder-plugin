@@ -1,11 +1,11 @@
 <?php
 
-namespace Toolkit\models;
+namespace WPbuilder\models;
 
 // Prevent direct access.
 defined( 'ABSPATH' ) or exit;
 
-use Toolkit\models\AbstractMedia;
+use WPbuilder\models\AbstractMedia;
 
 abstract class AbstractGallery
 {

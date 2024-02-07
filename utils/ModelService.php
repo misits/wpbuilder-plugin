@@ -1,11 +1,11 @@
 <?php
 
-namespace Toolkit\utils;
+namespace WPbuilder\utils;
 
 // Prevent direct access.
 defined('ABSPATH') or exit;
 
-use Toolkit\utils\RegisterService;
+use WPbuilder\utils\RegisterService;
 
 class ModelService
 {
@@ -13,16 +13,16 @@ class ModelService
     public static function register()
     {
         add_action('admin_init', function () {
-            register_setting('wordpress-toolkit-plugin', 'toolkit_enabled_models');
+            register_setting('wordpress-wpbuilder-plugin', 'wpbuilder_enabled_models');
         });
         add_action('admin_menu', function () {
             // Add a submenu for settings
             add_submenu_page(
-                'toolkit', // Parent menu slug
+                'wpbuilder', // Parent menu slug
                 'Models', // Page title
                 'Models', // Menu title
                 'edit_theme_options',
-                'toolkit-manage-models', // Menu slug
+                'wpbuilder-manage-models', // Menu slug
                 [self::class, 'display_settings_page'] // Callback function to display the settings page
             );
         });
@@ -32,12 +32,22 @@ class ModelService
 
     public static function display_settings_page()
     {
-        $plugin_models_path = WP_TOOLKIT_DIR . '/models/custom'; // Path to plugin's models
-        $theme_models_path = WP_TOOLKIT_THEME_PATH . '/models/custom'; // Path to theme's models
+        $plugin_models_path = WPBUILDER_DIR . '/models/custom'; // Path to plugin's models
+        $theme_models_path = WPBUILDER_THEME_PATH . '/models/custom'; // Path to theme's models
 
         // Combine models from both locations
         $plugin_models = scandir($plugin_models_path);
+
+        // Check if the theme models directory exists
+        if (!file_exists($theme_models_path)) {
+            echo "<div class='notice notice-error'><p>Theme models directory does not exist.</p></div>";
+            return;
+        }
         $theme_models = scandir($theme_models_path);
+
+        if ($plugin_models === false || $theme_models === false) {
+            return;
+        }
 
         // Filter out non-PHP files and format model names
         $plugin_models = array_filter($plugin_models, function ($file) {
@@ -50,7 +60,22 @@ class ModelService
         // Merge models from both locations
         $models = array_merge($plugin_models, $theme_models);
 
-        $options = get_option('toolkit_enabled_models', []);
+        // Sort models by Category, Block, and then alphabetically
+        usort($models, function ($a, $b) {
+            if (str_contains($a, 'Category') && !str_contains($b, 'Category')) {
+                return -1;
+            } else if (str_contains($b, 'Category') && !str_contains($a, 'Category')) {
+                return 1;
+            } else if (str_contains($a, 'Block') && !str_contains($b, 'Block')) {
+                return -1;
+            } else if (str_contains($b, 'Block') && !str_contains($a, 'Block')) {
+                return 1;
+            } else {
+                return strcasecmp($a, $b);
+            }
+        });
+
+        $options = get_option('wpbuilder_enabled_models', []);
 
         if (isset($_POST['submit'])) {
             // Process form submission
@@ -59,21 +84,39 @@ class ModelService
                 $model_key = basename($model, '.php');
                 $options[$model_key] = isset($_POST[$model_key]) ? 1 : 0;
             }
-            update_option('toolkit_enabled_models', $options);
+            update_option('wpbuilder_enabled_models', $options);
         }
 
         // Display the settings form
 ?>
         <div class="wrap">
             <h2>Model Settings</h2>
-            <p><?= __('Check the boxes below to enable the corresponding post type.', 'toolkit') ?></p>
-            <form method="post">
+            <p><?= __('Check the boxes below to enable the corresponding post type.', 'wpbuilder') ?></p>
+            <form method="post" class="wpbuilder-models">
                 <?php foreach ($models as $model) :
-                    $model_key = basename($model, '.php'); ?>
-                    <label>
+                    $model_key = basename($model, '.php'); 
+                    // read the file and get the icon
+                    $icon = '';
+                    $file_path = WPBUILDER_THEME_PATH . "/models/custom/$model_key.php";
+                    if (file_exists($file_path)) {
+                        $file = file_get_contents($file_path);
+                        $icon = '';
+                        // check if container Category
+                        if (str_contains($model_key, 'Category')) {
+                            $icon = 'dashicons-category';
+                        } else if (str_contains($model_key, 'Block')) {
+                            $icon = 'dashicons-block-default';
+                        } else {
+                            preg_match("/'menu_icon' => '(.+?)'/", $file, $icon);
+                            $icon = $icon[1];
+                        }
+                    }
+                ?>    
+                    <label class="model">
                         <input type="checkbox" name="<?php echo esc_attr($model_key); ?>" value="1" <?php checked(isset($options[$model_key]) ? $options[$model_key] : 0); ?>>
+                        <span class="wp-menu-image dashicons-before <?php echo esc_attr($icon); ?>"></span>
                         <?php echo esc_html($model_key); ?>
-                    </label><br>
+                    </label>
                 <?php endforeach; ?>
                 <p class="submit">
                     <input type="submit" class="button-primary" name="submit" value="Save Changes">
@@ -88,26 +131,26 @@ class ModelService
 
     public static function enable()
     {
-        $options = get_option('toolkit_enabled_models', []);
+        $options = get_option('wpbuilder_enabled_models', []);
 
         foreach ($options as $model => $enabled) {
             if ($enabled) {
 
                 // Define the file path based on the model name
-                $file_path = WP_TOOLKIT_THEME_PATH . "/models/custom/$model.php";
+                $file_path = WPBUILDER_THEME_PATH . "/models/custom/$model.php";
 
                 // Check if the file exists before including it
                 if (file_exists($file_path)) {
-                    $class = "\\Toolkit\\models\\custom\\$model";
+                    $class = "\\WPbuilder\\models\\custom\\$model";
                     require_once $file_path;
                     // Register the class
                     $class::register();
                 } else {
-                    $file_path = WP_TOOLKIT_DIR . "/models/custom/$model.php";
+                    $file_path = WPBUILDER_DIR . "/models/custom/$model.php";
 
                     // Check if the file exists before including it
                     if (file_exists($file_path)) {
-                        $class = "\\Toolkit\\models\\custom\\$model";
+                        $class = "\\WPbuilder\\models\\custom\\$model";
                         require_once $file_path;
                         // Register the class
                         $class::register();

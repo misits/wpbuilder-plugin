@@ -1,0 +1,6 @@
+{
+    "require": {
+        "htmlburger/carbon-fields": "^3.6",
+        "htmlburger/carbon-field-number": "^3.0"
+    }
+}

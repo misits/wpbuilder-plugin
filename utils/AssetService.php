@@ -1,6 +1,6 @@
 <?php
 
-namespace Toolkit\utils;
+namespace WPbuilder\utils;
 
 // Prevent direct access.
 defined( 'ABSPATH' ) or exit;
@@ -17,13 +17,13 @@ class AssetService
         add_action("wp_enqueue_scripts", [self::class, "enqueue_scripts"]);
         add_action("admin_enqueue_scripts", function () {
             wp_enqueue_style(
-                "toolkit-admin-css",
-                WP_TOOLKIT_URL . "/admin/assets/css/admin.css",
+                "wpbuilder-admin-css",
+                WPBUILDER_URL . "/admin/assets/css/admin.css",
                 [],
             );
             wp_enqueue_style(
-                'toolkit-icomoon-style',
-                WP_TOOLKIT_URL . '/admin/assets/css/icomoon.css',
+                'wpbuilder-icomoon-style',
+                WPBUILDER_URL . '/admin/assets/css/icomoon.css',
                 [],
             );
         });
@@ -33,7 +33,7 @@ class AssetService
     {
         if (!self::is_vite_running()) {
             // Production environment (Local build)
-            $assets_dir = WP_TOOLKIT_THEME_PATH . "/public/css/";
+            $assets_dir = WPBUILDER_THEME_PATH . "/public/css/";
 
             if (!file_exists($assets_dir)) {
                 return;
@@ -47,8 +47,8 @@ class AssetService
             foreach ($files as $file) {
                 if (preg_match('/\.css$/', $file)) {
                     wp_enqueue_style(
-                        "vite-wordpress-toolkit-plugin-css-" . basename($file, ".css"),
-                        WP_TOOLKIT_THEME_URL . "/public/css/" . $file,
+                        "vite-wordpress-wpbuilder-plugin-css-" . basename($file, ".css"),
+                        WPBUILDER_THEME_URL . "/public/css/" . $file,
                         [],
                     );
                 }
@@ -101,7 +101,7 @@ class AssetService
 
     public static function is_vite_running()
     {
-        $dev_file = WP_TOOLKIT_THEME_PATH . "/.dev";
+        $dev_file = WPBUILDER_THEME_PATH . "/.dev";
 
         if (file_exists($dev_file)) {
             return true;
@@ -112,7 +112,7 @@ class AssetService
 
     public static function enqueue_production_scripts()
     {
-        $assets_dir = WP_TOOLKIT_THEME_PATH . "/public/js/";
+        $assets_dir = WPBUILDER_THEME_PATH . "/public/js/";
         if (!file_exists($assets_dir)) {
             return;
         }
@@ -121,8 +121,8 @@ class AssetService
         foreach ($files as $file) {
             if (preg_match('/\.js$/', $file)) {
                 wp_enqueue_script(
-                    "vite-wordpress-toolkit-plugin-js-" . basename($file, ".js"),
-                    WP_TOOLKIT_THEME_URL . "/public/js/" . $file,
+                    "vite-wordpress-wpbuilder-plugin-js-" . basename($file, ".js"),
+                    WPBUILDER_THEME_URL . "/public/js/" . $file,
                     [],
                     null,
                     true
@@ -130,7 +130,7 @@ class AssetService
                 add_filter(
                     "script_loader_tag",
                     function ($tag, $handle, $src) use ($file) {
-                        if ($handle === "vite-wordpress-toolkit-plugin-js-" . basename($file, ".js")) {
+                        if ($handle === "vite-wordpress-wpbuilder-plugin-js-" . basename($file, ".js")) {
                             $tag = '<script type="module" src="' . esc_url($src) . '"></script>';
                         }
                         return $tag;
@@ -158,7 +158,7 @@ class AssetService
 
     public static function version($file = null)
     {
-        $path = WP_TOOLKIT_THEME_URL . "/public/manifest.json";
+        $path = WPBUILDER_THEME_URL . "/public/manifest.json";
 
         if (!file_exists($path)) {
             return null;
@@ -182,7 +182,7 @@ class AssetService
 
     public static function config(string $key, $default = null)
     {
-        $config = include WP_TOOLKIT_DIR . "/config/app.php";
+        $config = include WPBUILDER_DIR . "/config/app.php";
         return $config[$key] ?? $default;
     }
 }
