@@ -26,12 +26,12 @@ Télécharger le plugin [wpbuilder-plugin](https://github.com/misits/wpbuilder-p
 
 ## Mise à jour
 
-Le plugin integere un système de mise à jour basé sur [plugin-update-checker](https://github.com/YahnisElsts/plugin-update-checker) et est lié au dépôt git du plugin sur https://git.hawai.li/hawai-li/wordpress-wpbuilder-plugin.
+Le plugin integere un système de mise à jour basé sur [plugin-update-checker](https://github.com/YahnisElsts/plugin-update-checker) et est lié au dépôt git du plugin sur [wpbuilder-plugin](https://github.com/misits/wpbuilder-plugin).
 
 Pour mettre à jour le plugin, il faut changer la version `readme.txt` et `wpbuilder-plugin.php` et pousser les changements sur le dépôt git. Le plugin detectera automatiquement les mis à jour sur les sites utilisant le plugin et proposera la mise à jour.
 
 ## TODO
 
-- [ ] Ajouter création de catégories
 - [ ] Intégraton du cookie banner
+- [ ] Generation de meta avec Carbon Fields
 - [ ] Plus de CPT par défaut (ex: FAQ, Team, ...)
