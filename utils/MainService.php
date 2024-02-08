@@ -6,6 +6,7 @@ namespace WPbuilder\utils;
 defined('ABSPATH') or exit;
 
 use WPbuilder\utils\AssetService;
+use WPbuilder\models\OptionSite;
 
 class MainService
 {
@@ -26,7 +27,7 @@ class MainService
     public static function maintenance_mode()
     {
         // Maintenance mode if .maintenance file exists in root redirect until login
-        if (get_option('maintenance_mode', 0) == 1) {
+        if (OptionSite::crb('crb_maintenance_mode')) {
             // if url is not wp-login.php and not wp-admin redirect to maintenance page
             if (!in_array($GLOBALS['pagenow'], ['wp-login.php', 'wp-register.php']) && !is_user_logged_in() && !is_admin()) {
                 // load custom maintenance page
@@ -119,7 +120,6 @@ class MainService
     {
         add_action('admin_init', function () {
             register_setting('wordpress-wpbuilder-plugin', 'custom_menu_settings');
-            register_setting('wordpress-wpbuilder-plugin', 'maintenance_mode');
             register_setting('wordpress-wpbuilder-plugin', 'upload_size_limit', 'intval');
             register_setting('wordpress-wpbuilder-plugin', 'remove_woocommcerce_styles');
         });
@@ -507,24 +507,6 @@ class MainService
                     }
                     ?>
                 </p>
-            </div>
-            <!-- Maintenance mode -->
-            <div class="settings maintenance-mode">
-                <hr />
-                <h2><?php _e('Maintenance mode', 'wpbuilder'); ?></h2>
-                <form method="post">
-                    <?php wp_nonce_field('maintenance_mode_action', 'maintenance_mode_nonce'); ?>
-                    <p>
-                        <label for="maintenance_mode">
-                            <input type="checkbox" name="maintenance_mode" id="maintenance_mode" value="1" <?php checked(get_option('maintenance_mode', 0), 1); ?>>
-                            <?php _e('Enable maintenance mode', 'wpbuilder') ?>
-                        </label>
-                    </p>
-                    <p class="submit">
-                        <input type="submit" name="submit" class="button-primary" value="Save Changes">
-                    </p>
-                </form>
-                <hr />
             </div>
             <!-- Max upload size -->
             <div class="settings max-upload-size">

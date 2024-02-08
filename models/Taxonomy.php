@@ -92,13 +92,9 @@ abstract class Taxonomy implements \JsonSerializable
         return self::find("slug", $value);
     }
 
-    public function acf(string $name)
+    public function crb(string $name)
     {
-        if (function_exists("get_field")) {
-            return get_field($name, $this->term);
-        } else {
-            trigger_error("Plug-in ACF is not installed.", E_USER_WARNING);
-        }
+        return carbon_get_term_meta($this->term->term_id, $name);
     }
 
     public function jsonSerialize()

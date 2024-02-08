@@ -1,0 +1,104 @@
+:root {
+    --tcwp-color-background: #fff;
+    --tcwp-color-text: #000;
+    --tcwp-color-primary: #000;
+    --tcwp-white-color: #fff;
+    --tcwp-consent-radius: 4px;
+    --tcwp-ease: ease-in-out;
+    --tcwp-space-1: 0.25rem;
+    --tcwp-space-2: 0.5rem;
+    --tcwp-space-3: 0.75rem;
+    --tcwp-space-4: 1rem;
+    --tcwp-font-size-sm: 0.875rem;
+    --tcwp-phone: 375px;
+}
+
+#tracking-consent-wp-front {
+    position: fixed;
+    bottom: 0;
+    margin: var(--tcwp-space-4);
+    padding: var(--tcwp-space-4);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: var(--tcwp-consent-radius, 0);
+    max-width: var(--tcwp-phone);
+    background-color: var(--tcwp-color-background, #fff);
+    opacity: 0;
+    transform: translateY(110%);
+    transition: opacity 0.5s var(--tcwp-ease), transform 0.5s var(--tcwp-ease);
+    z-index: 9999;
+}
+
+@media screen and (max-width: 768px) {
+    #tracking-consent-wp-front {
+        margin: 0;
+        border-radius: 0;
+    }
+}
+
+#tracking-consent-wp-front.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#tracking-consent-wp-front.hidden {
+    opacity: 0;
+    transform: translateY(110%);
+}
+
+#tracking-consent-wp-front.none {
+    display: none;
+}
+
+#tracking-consent-wp-front .consent-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#tracking-consent-wp-front .consent-form__description p {
+    margin-top: 0;
+    max-width: 300px;
+}
+
+#tracking-consent-wp-front .consent-form__actions {
+    display: flex;
+    flex-direction: row;
+}
+
+#tracking-consent-wp-front .consent-form__actions .button {
+    margin-right: var(--tcwp-space-2);
+    border: 1px solid var(--color-main, #000);
+    color: var(--tcwp-white-color);
+    background-color: var(--color-main, #000);
+    border-radius: var(--tcwp-consent-radius, 0);
+    padding: var(--tcwp-space-2) var(--tcwp-space-3);
+    font-size: var(--tcwp-font-size-sm);
+    cursor: pointer;
+    transition: color 0.2s var(--tcwp-ease), background-color 0.2s var(--tcwp-ease);
+    white-space: nowrap;
+}
+
+#tracking-consent-wp-front .consent-form__actions .button:hover {
+    background-color: var(--tcwp-white-color);
+    color: var(--color-main, #000);
+}
+
+#tracking-consent-wp-front .consent-form__actions .button--secondary {
+    border: 1px solid var(--color-main, #000);
+    color: var(--color-main, #000);
+    background-color: var(--tcwp-white-color);
+}
+
+#tracking-consent-wp-front .consent-form__actions .button--secondary:hover {
+    background-color: var(--color-main, #000);
+    color: var(--tcwp-white-color);
+}
+
+#tracking-consent-wp-front .consent-form__actions .button--icon {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+#tracking-consent-wp-front .consent-form__actions .button--icon svg {
+    margin-left: var(--tcwp-space-1);
+}

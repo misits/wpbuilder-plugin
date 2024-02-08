@@ -188,8 +188,8 @@ class RegisterService
         $phpContent .= 'namespace WPbuilder\models\custom;' . PHP_EOL . PHP_EOL;
         $phpContent .= 'defined(\'ABSPATH\') or exit;' . PHP_EOL . PHP_EOL;
         $phpContent .= 'use WPbuilder\models\CustomPostType;' . PHP_EOL . PHP_EOL;
-        $phpContent .= 'use Carbon_Fields\Container;' . PHP_EOL . PHP_EOL;
-        $phpContent .= 'use Carbon_Fields\Field;' . PHP_EOL . PHP_EOL;
+        $phpContent .= 'use \Carbon_Fields\Container;' . PHP_EOL . PHP_EOL;
+        $phpContent .= 'use \Carbon_Fields\Field;' . PHP_EOL . PHP_EOL;
         $phpContent .= 'class ' . ucfirst(sanitize_text_field($formData['model_name'])) . ' extends CustomPostType implements \\JsonSerializable' . PHP_EOL;
         $phpContent .= '{' . PHP_EOL;
         $phpContent .= '    const TYPE = \'' . strtolower(sanitize_text_field($formData['model_name'])) . '\';' . PHP_EOL;
@@ -278,13 +278,27 @@ class RegisterService
         $phpContent = '<?php' . PHP_EOL . PHP_EOL;
         $phpContent .= 'namespace WPbuilder\models\custom;' . PHP_EOL . PHP_EOL;
         $phpContent .= 'defined(\'ABSPATH\') or exit;' . PHP_EOL . PHP_EOL;
-        $phpContent .= 'use WPbuilder\models\Block;' . PHP_EOL . PHP_EOL;
-        $phpContent .= 'class Block' . ucfirst(sanitize_text_field($formData['block_title'])) . ' extends Block' . PHP_EOL;
+        $phpContent .= 'use WPbuilder\models\CustomBlock;' . PHP_EOL . PHP_EOL;
+        $phpContent .= 'use \Carbon_Fields\Block;' . PHP_EOL . PHP_EOL;
+        $phpContent .= 'use \Carbon_Fields\Field;' . PHP_EOL . PHP_EOL;
+        $phpContent .= 'class Block' . ucfirst(sanitize_text_field($formData['block_title'])) . ' extends CustomBlock' . PHP_EOL;
         $phpContent .= '{' . PHP_EOL;
         $phpContent .= '    const TYPE = \''. 'block-' . strtolower(sanitize_text_field($formData['block_title'])) . '\';' . PHP_EOL . PHP_EOL;
         $phpContent .= '    public static function settings()' . PHP_EOL;
         $phpContent .= '    {' . PHP_EOL;
         $phpContent .= '        return ' . var_export(self::prepare_block_settings($formData), true) . ';' . PHP_EOL;
+        $phpContent .= '    }' . PHP_EOL . PHP_EOL;
+        $phpContent .= '    public static function fields()' . PHP_EOL;
+        $phpContent .= '    {' . PHP_EOL;
+        $phpContent .= '        Block::make(__(self::settings()["title"], ' . "'wpbuilder'))" . PHP_EOL;
+        $phpContent .= '            ->add_fields(array(' . PHP_EOL;
+        $phpContent .= '                Field::make(\'text\', \'title\', __(\'Title\', \'wpbuilder\'))' . PHP_EOL;
+        $phpContent .= '            ))' . PHP_EOL;
+        $phpContent .= '            ->set_description(__(self::settings()["description"], \'wpbuilder\'))' . PHP_EOL;
+        $phpContent .= '            ->set_category(\'wpbuilder\', self::TYPE, self::settings()["icon"])' . PHP_EOL;
+        $phpContent .= '            ->set_render_callback(function ($fields, $attributes, $inner_blocks) {' . PHP_EOL;
+        $phpContent .= '                static::render($fields, $attributes, $inner_blocks);' . PHP_EOL;
+        $phpContent .= '            });' . PHP_EOL;
         $phpContent .= '    }' . PHP_EOL . PHP_EOL;
         $phpContent .= '}' . PHP_EOL;
 
@@ -298,6 +312,7 @@ class RegisterService
         $blockTemplate = WPBUILDER_THEME_PATH . '/partials/blocks/block-' . strtolower(sanitize_text_field($formData['block_title'])) . '.php';
         if (!file_exists($blockTemplate)) {
             $blockTemplateContent = '<?php' . PHP_EOL . PHP_EOL;
+            $blockTemplateContent .= 'namespace WPbuilder\partials\blocks;' . PHP_EOL . PHP_EOL;
             $blockTemplateContent .= 'echo "Block template";' . PHP_EOL;
             if (file_put_contents($blockTemplate, $blockTemplateContent) === false) {
                 echo __('Unable to create block template file.', 'wpbuilder');
@@ -377,7 +392,7 @@ class RegisterService
             'title' => __($formData['block_title'], 'wpbuilder'),
             'mode' => 'auto',
             'description' => __($formData['block_description'], 'wpbuilder'),
-            'icon' => $formData['block_icon'],
+            'menu_icon' => $formData['block_icon'],
             'keywords' => explode(", ", $formData['block_keywords']),
         ];
     }

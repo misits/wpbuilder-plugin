@@ -13,7 +13,7 @@ Ce plugin permet de charger les fonctionnalités de base du thème.
 
 - Activation du mode maintenance
 - Creation de custom post type (CPT) et activation/désactivation de ceux-ci
-- Creation de block gutenberg et activation/désactivation de ceux-ci
+- Creation de block gutenberg
 - Gestion des menus wordpress
 
 == Installation ==

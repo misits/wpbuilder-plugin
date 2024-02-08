@@ -60,19 +60,9 @@ class ModelService
         // Merge models from both locations
         $models = array_merge($plugin_models, $theme_models);
 
-        // Sort models by Category, Block, and then alphabetically
-        usort($models, function ($a, $b) {
-            if (str_contains($a, 'Category') && !str_contains($b, 'Category')) {
-                return -1;
-            } else if (str_contains($b, 'Category') && !str_contains($a, 'Category')) {
-                return 1;
-            } else if (str_contains($a, 'Block') && !str_contains($b, 'Block')) {
-                return -1;
-            } else if (str_contains($b, 'Block') && !str_contains($a, 'Block')) {
-                return 1;
-            } else {
-                return strcasecmp($a, $b);
-            }
+        // Remove blocks & options from the list
+        $models = array_filter($models, function ($model) {
+            return strpos($model, 'Block') === false && strpos($model, 'Option') === false;
         });
 
         $options = get_option('wpbuilder_enabled_models', []);
@@ -94,7 +84,7 @@ class ModelService
             <p><?= __('Check the boxes below to enable the corresponding post type.', 'wpbuilder') ?></p>
             <form method="post" class="wpbuilder-models">
                 <?php foreach ($models as $model) :
-                    $model_key = basename($model, '.php'); 
+                    $model_key = basename($model, '.php');
                     // read the file and get the icon
                     $icon = '';
                     $file_path = WPBUILDER_THEME_PATH . "/models/custom/$model_key.php";
@@ -111,7 +101,7 @@ class ModelService
                             $icon = $icon[1];
                         }
                     }
-                ?>    
+                ?>
                     <label class="model">
                         <input type="checkbox" name="<?php echo esc_attr($model_key); ?>" value="1" <?php checked(isset($options[$model_key]) ? $options[$model_key] : 0); ?>>
                         <span class="wp-menu-image dashicons-before <?php echo esc_attr($icon); ?>"></span>
@@ -125,37 +115,45 @@ class ModelService
         </div>
 <?php
 
-    RegisterService::render_create_model_tab();
+        RegisterService::render_create_model_tab();
     }
 
 
     public static function enable()
     {
+        // Register cpt fields
         $options = get_option('wpbuilder_enabled_models', []);
+        $custom_theme_models = WPBUILDER_THEME_PATH . "/models/custom";
+        $custom_plugin_models = WPBUILDER_DIR . "/models/custom";
+        $custom_models = [];
 
-        foreach ($options as $model => $enabled) {
-            if ($enabled) {
+        if (file_exists($custom_theme_models)) {
+            $custom_models = array_merge(
+                glob($custom_theme_models . "/*.php"),
+                $custom_models
+            );
+        }
 
-                // Define the file path based on the model name
-                $file_path = WPBUILDER_THEME_PATH . "/models/custom/$model.php";
+        if (file_exists($custom_plugin_models)) {
+            $custom_models = array_merge(
+                glob($custom_plugin_models . "/*.php"),
+                $custom_models
+            );
+        }
 
-                // Check if the file exists before including it
-                if (file_exists($file_path)) {
-                    $class = "\\WPbuilder\\models\\custom\\$model";
-                    require_once $file_path;
-                    // Register the class
-                    $class::register();
-                } else {
-                    $file_path = WPBUILDER_DIR . "/models/custom/$model.php";
+        foreach ($custom_models as $key => $model) {
+            $model_name = basename($model, ".php");
+            if (!array_key_exists($model_name, $options))
+            {
+                unset($custom_models[$key]);
+            }
+        }
 
-                    // Check if the file exists before including it
-                    if (file_exists($file_path)) {
-                        $class = "\\WPbuilder\\models\\custom\\$model";
-                        require_once $file_path;
-                        // Register the class
-                        $class::register();
-                    }
-                }
+        foreach ($custom_models as $model) {
+            $class = "\\WPbuilder\\models\\custom\\" . basename($model, ".php");
+            // Register the class
+            if (method_exists($class, 'register')) {
+                $class::register();
             }
         }
     }

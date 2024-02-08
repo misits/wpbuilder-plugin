@@ -11,6 +11,7 @@ Ce plugin permet de charger les fonctionnalités de base du thème.
 
 - Activation du mode maintenance
 - Creation de custom post type (CPT) et activation/désactivation de ceux-ci
+- Creation de custom block (Gutenberg)
 - Gestion des menus wordpress
 
 ## Documentation technique
@@ -32,6 +33,4 @@ Pour mettre à jour le plugin, il faut changer la version `readme.txt` et `wpbui
 
 ## TODO
 
-- [ ] Intégraton du cookie banner
-- [ ] Generation de meta avec Carbon Fields
 - [ ] Plus de CPT par défaut (ex: FAQ, Team, ...)

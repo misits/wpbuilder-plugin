@@ -9,7 +9,7 @@ use WPbuilder\utils\WPML;
 use WPbuilder\models\Media;
 use WPbuilder\models\File;
 use WPbuilder\models\Page;
-use WPbuilder\utils\QueryBuilder;
+use WPbuilder\models\QueryBuilder;
 
 abstract class PostType
 {
@@ -103,37 +103,22 @@ abstract class PostType
     }
 
     /**
-     * Get if the ACF by key
-     *
-     * @param string $key The ACF Key
-     * @return mixed
-     */
-    public function acf(string $key)
-    {
-        if (function_exists("get_field")) {
-            return get_field($key, $this->id());
-        } else {
-            trigger_error("Plug-in ACF is not installed.", E_USER_WARNING);
-        }
-    }
-
-    /**
      * Get if the post has the ACF by key
      *
      * @param string $key The ACF Key
      * @return bool
      */
-    public function has_acf(string $key): bool
+    public function has_crb(string $key): bool
     {
-        return !empty($this->acf($key));
+        return !empty($this->crb($key));
     }
 
-    public function acf_publication(
+    public function crb_publication(
         string $name,
         string $class,
         callable $callback
     ) {
-        $data = $this->acf($name);
+        $data = $this->crb($name);
         $id = gettype($data) == "object" ? $data->ID : $data;
 
         if (!$id) {
@@ -143,36 +128,36 @@ abstract class PostType
         return $callback(new $class($id));
     }
 
-    public function acf_post(string $name, callable $callback)
+    public function crb_post(string $name, callable $callback)
     {
-        return $this->acf_publication($name, Page::class, $callback);
+        return $this->crb_publication($name, Page::class, $callback);
     }
 
-    public function acf_page(string $name, callable $callback)
+    public function crb_page(string $name, callable $callback)
     {
-        return $this->acf_publication($name, Page::class, $callback);
-    }
-
-    /**
-     * Render an acf media
-     * @param callable $callback Render the acf media
-     *
-     * @return mixed|null
-     */
-    public function acf_media(string $name, callable $callback)
-    {
-        return $this->acf_publication($name, Media::class, $callback);
+        return $this->crb_publication($name, Page::class, $callback);
     }
 
     /**
-     * Render an acf file
-     * @param callable $callback Render the acf file
+     * Render an crb media
+     * @param callable $callback Render the crb media
      *
      * @return mixed|null
      */
-    public function acf_file(string $name, callable $callback)
+    public function crb_media(string $name, callable $callback)
     {
-        return $this->acf_publication($name, File::class, $callback);
+        return $this->crb_publication($name, Media::class, $callback);
+    }
+
+    /**
+     * Render an crb file
+     * @param callable $callback Render the crb file
+     *
+     * @return mixed|null
+     */
+    public function crb_file(string $name, callable $callback)
+    {
+        return $this->crb_publication($name, File::class, $callback);
     }
 
     /**
@@ -422,7 +407,7 @@ abstract class PostType
 
     public function has_relation(string $field): bool
     {
-        return !empty($this->acf($field));
+        return !empty($this->crb($field));
     }
 
     public function relation(
@@ -430,7 +415,7 @@ abstract class PostType
         string $class,
         callable $callback = null
     ): array {
-        $ids = $this->acf($field);
+        $ids = $this->crb($field);
 
         if (!$ids) {
             return [];
@@ -526,5 +511,14 @@ abstract class PostType
     public function password_form(): string
     {
         return get_the_password_form($this->id());
+    }
+
+    /**
+     * Carbon Fields
+     */
+
+     public function crb(string $name)
+    {
+        return carbon_get_post_meta($this->id(), $name) ?? null;
     }
 }

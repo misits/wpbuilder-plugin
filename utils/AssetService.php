@@ -15,15 +15,22 @@ class AssetService
     {
         add_action("wp_enqueue_scripts", [self::class, "enqueue_styles"]);
         add_action("wp_enqueue_scripts", [self::class, "enqueue_scripts"]);
+        add_action("wp_enqueue_scripts", function () {
+            wp_enqueue_style(
+                'wpbuilder-cookie-banner-style',
+                WPBUILDER_URL . 'admin/assets/css/cookie-banner.css',
+                [],
+            );
+        });
         add_action("admin_enqueue_scripts", function () {
             wp_enqueue_style(
                 "wpbuilder-admin-css",
-                WPBUILDER_URL . "/admin/assets/css/admin.css",
+                WPBUILDER_URL . "admin/assets/css/admin.css",
                 [],
             );
             wp_enqueue_style(
                 'wpbuilder-icomoon-style',
-                WPBUILDER_URL . '/admin/assets/css/icomoon.css',
+                WPBUILDER_URL . 'admin/assets/css/icomoon.css',
                 [],
             );
         });
