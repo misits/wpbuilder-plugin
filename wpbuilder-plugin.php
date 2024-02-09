@@ -118,7 +118,7 @@ add_action('carbon_fields_register_fields', function () {
     }
 
     foreach ($custom_blocks as $key => $block) {
-        if (strpos($block, 'Block') === false) {
+        if (strpos($block, 'Block') === false && strpos($block, 'Option') === false) {
             unset($custom_blocks[$key]);
         }
     }

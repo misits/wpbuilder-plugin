@@ -9,29 +9,29 @@ use WPbuilder\models\CustomPostType;
 use \Carbon_Fields\Container;
 use \Carbon_Fields\Field;
 
-class Gallery extends CustomPostType implements \JsonSerializable
+class Download extends CustomPostType implements \JsonSerializable
 {
-  const TYPE = 'gallery';
-  const SLUG = 'gallery';
+  const TYPE = 'download';
+  const SLUG = 'download';
 
   public static function type_settings()
   {
     return array(
       'menu_position' => 2.2,
-      'label' => __('Gallery', 'wpbuilder'),
+      'label' => __('Download', 'wpbuilder'),
       'labels' =>
       array(
-        'name' => __('Galleries', 'wpbuilder'),
-        'singular_name' => __('Gallery', 'wpbuilder'),
-        'menu_name' => __('Galleries', 'wpbuilder'),
-        'all_items' => __('All galleries', 'wpbuilder'),
+        'name' => __('Downloads', 'wpbuilder'),
+        'singular_name' => __('Download', 'wpbuilder'),
+        'menu_name' => __('Downloads', 'wpbuilder'),
+        'all_items' => __('All downloads', 'wpbuilder'),
         'add_new' => __('Add new', 'wpbuilder'),
-        'add_new_item' => __('Add new gallery', 'wpbuilder'),
-        'edit_item' => __('Edit gallery', 'wpbuilder'),
-        'new_item' => __('New gallery', 'wpbuilder'),
-        'view_item' => __('View gallery', 'wpbuilder'),
-        'view_items' => __('View galleries', 'wpbuilder'),
-        'search_items' => __('Search gallery', 'wpbuilder'),
+        'add_new_item' => __('Add new download', 'wpbuilder'),
+        'edit_item' => __('Edit download', 'wpbuilder'),
+        'new_item' => __('New download', 'wpbuilder'),
+        'view_item' => __('View download', 'wpbuilder'),
+        'view_items' => __('View downloads', 'wpbuilder'),
+        'search_items' => __('Search download', 'wpbuilder'),
       ),
       'description' => '',
       'public' => true,
@@ -46,36 +46,36 @@ class Gallery extends CustomPostType implements \JsonSerializable
       'capability_type' => 'post',
       'map_meta_cap' => true,
       'hierarchical' => false,
-      'taxonomies' => ['gallery_category'],
+      'taxonomies' => ['download_category'],
       'rewrite' =>
       array(
-        'slug' => 'gallery',
+        'slug' => 'download',
         'with_front' => false,
       ),
       'query_var' => true,
-      'menu_icon' => 'dashicons-icon-perm_media',
+      'menu_icon' => 'dashicons-icon-drive_folder_upload',
       'supports' =>
       array(
         0 => 'title',
         1 => 'thumbnail',
         2 => 'excerpt',
-        3 => 'editor',
       ),
     );
   }
 
   public static function fields()
   {
-    Container::make('post_meta', __('Gallery', 'wpbuilder'))
+    Container::make('post_meta', __('Download', 'wpbuilder'))
       ->where('post_type', '=', self::TYPE)
-      ->add_tab(__('Images', 'wpbuilder'), array(
-        Field::make('complex', 'crb_gallery_images', __('Images', 'wpbuilder'))
+      ->add_tab(__('Downloads', 'wpbuilder'), array(
+        Field::make('complex', 'crb_download_images', __('Files', 'wpbuilder'))
           ->set_layout('grid')
           ->add_fields(array(
-            Field::make('image', 'crb_image', __('Image', 'wpbuilder')),
             Field::make('text', 'crb_title', __('Title', 'wpbuilder')),
             Field::make('textarea', 'crb_description', __('Description', 'wpbuilder')),
+            Field::make('file', 'crb_file', __('File', 'wpbuilder')),
           ))
+          ->set_max(4)
           ->set_layout('tabbed-vertical')
           ->set_header_template('<%- title %>')
           ->set_collapsed(true),

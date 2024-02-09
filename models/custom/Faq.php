@@ -9,29 +9,29 @@ use WPbuilder\models\CustomPostType;
 use \Carbon_Fields\Container;
 use \Carbon_Fields\Field;
 
-class Gallery extends CustomPostType implements \JsonSerializable
+class Faq extends CustomPostType implements \JsonSerializable
 {
-  const TYPE = 'gallery';
-  const SLUG = 'gallery';
+  const TYPE = 'faq';
+  const SLUG = 'faq';
 
   public static function type_settings()
   {
     return array(
       'menu_position' => 2.2,
-      'label' => __('Gallery', 'wpbuilder'),
+      'label' => __('Faq', 'wpbuilder'),
       'labels' =>
       array(
-        'name' => __('Galleries', 'wpbuilder'),
-        'singular_name' => __('Gallery', 'wpbuilder'),
-        'menu_name' => __('Galleries', 'wpbuilder'),
-        'all_items' => __('All galleries', 'wpbuilder'),
+        'name' => __('Faqs', 'wpbuilder'),
+        'singular_name' => __('Faq', 'wpbuilder'),
+        'menu_name' => __('Faqs', 'wpbuilder'),
+        'all_items' => __('All faqs', 'wpbuilder'),
         'add_new' => __('Add new', 'wpbuilder'),
-        'add_new_item' => __('Add new gallery', 'wpbuilder'),
-        'edit_item' => __('Edit gallery', 'wpbuilder'),
-        'new_item' => __('New gallery', 'wpbuilder'),
-        'view_item' => __('View gallery', 'wpbuilder'),
-        'view_items' => __('View galleries', 'wpbuilder'),
-        'search_items' => __('Search gallery', 'wpbuilder'),
+        'add_new_item' => __('Add new faq', 'wpbuilder'),
+        'edit_item' => __('Edit faq', 'wpbuilder'),
+        'new_item' => __('New faq', 'wpbuilder'),
+        'view_item' => __('View faq', 'wpbuilder'),
+        'view_items' => __('View faqs', 'wpbuilder'),
+        'search_items' => __('Search faq', 'wpbuilder'),
       ),
       'description' => '',
       'public' => true,
@@ -46,38 +46,34 @@ class Gallery extends CustomPostType implements \JsonSerializable
       'capability_type' => 'post',
       'map_meta_cap' => true,
       'hierarchical' => false,
-      'taxonomies' => ['gallery_category'],
+      'taxonomies' => ['faq_category'],
       'rewrite' =>
       array(
-        'slug' => 'gallery',
+        'slug' => 'faq',
         'with_front' => false,
       ),
       'query_var' => true,
-      'menu_icon' => 'dashicons-icon-perm_media',
+      'menu_icon' => 'dashicons-icon-help',
       'supports' =>
       array(
         0 => 'title',
-        1 => 'thumbnail',
-        2 => 'excerpt',
-        3 => 'editor',
       ),
     );
   }
 
   public static function fields()
   {
-    Container::make('post_meta', __('Gallery', 'wpbuilder'))
+    Container::make('post_meta', __('Faq', 'wpbuilder'))
       ->where('post_type', '=', self::TYPE)
-      ->add_tab(__('Images', 'wpbuilder'), array(
-        Field::make('complex', 'crb_gallery_images', __('Images', 'wpbuilder'))
+      ->add_tab(__('Questions', 'wpbuilder'), array(
+        Field::make('complex', 'crb_faq_questions', __('Questions', 'wpbuilder'))
           ->set_layout('grid')
           ->add_fields(array(
-            Field::make('image', 'crb_image', __('Image', 'wpbuilder')),
-            Field::make('text', 'crb_title', __('Title', 'wpbuilder')),
-            Field::make('textarea', 'crb_description', __('Description', 'wpbuilder')),
+            Field::make('text', 'crb_question', __('Question', 'wpbuilder')),
+            Field::make('textarea', 'crb_answer', __('Answer', 'wpbuilder')),
           ))
           ->set_layout('tabbed-vertical')
-          ->set_header_template('<%- title %>')
+          ->set_header_template('<%- crb_question %>')
           ->set_collapsed(true),
       ));
   }

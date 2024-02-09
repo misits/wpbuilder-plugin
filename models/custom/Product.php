@@ -9,29 +9,29 @@ use WPbuilder\models\CustomPostType;
 use \Carbon_Fields\Container;
 use \Carbon_Fields\Field;
 
-class Gallery extends CustomPostType implements \JsonSerializable
+class Product extends CustomPostType implements \JsonSerializable
 {
-  const TYPE = 'gallery';
-  const SLUG = 'gallery';
+  const TYPE = 'product';
+  const SLUG = 'product';
 
   public static function type_settings()
   {
     return array(
       'menu_position' => 2.2,
-      'label' => __('Gallery', 'wpbuilder'),
+      'label' => __('Product', 'wpbuilder'),
       'labels' =>
       array(
-        'name' => __('Galleries', 'wpbuilder'),
-        'singular_name' => __('Gallery', 'wpbuilder'),
-        'menu_name' => __('Galleries', 'wpbuilder'),
-        'all_items' => __('All galleries', 'wpbuilder'),
+        'name' => __('Products', 'wpbuilder'),
+        'singular_name' => __('Product', 'wpbuilder'),
+        'menu_name' => __('Products', 'wpbuilder'),
+        'all_items' => __('All products', 'wpbuilder'),
         'add_new' => __('Add new', 'wpbuilder'),
-        'add_new_item' => __('Add new gallery', 'wpbuilder'),
-        'edit_item' => __('Edit gallery', 'wpbuilder'),
-        'new_item' => __('New gallery', 'wpbuilder'),
-        'view_item' => __('View gallery', 'wpbuilder'),
-        'view_items' => __('View galleries', 'wpbuilder'),
-        'search_items' => __('Search gallery', 'wpbuilder'),
+        'add_new_item' => __('Add new product', 'wpbuilder'),
+        'edit_item' => __('Edit product', 'wpbuilder'),
+        'new_item' => __('New product', 'wpbuilder'),
+        'view_item' => __('View product', 'wpbuilder'),
+        'view_items' => __('View products', 'wpbuilder'),
+        'search_items' => __('Search product', 'wpbuilder'),
       ),
       'description' => '',
       'public' => true,
@@ -46,36 +46,36 @@ class Gallery extends CustomPostType implements \JsonSerializable
       'capability_type' => 'post',
       'map_meta_cap' => true,
       'hierarchical' => false,
-      'taxonomies' => ['gallery_category'],
+      'taxonomies' => ['product_category'],
       'rewrite' =>
       array(
-        'slug' => 'gallery',
+        'slug' => 'product',
         'with_front' => false,
       ),
       'query_var' => true,
-      'menu_icon' => 'dashicons-icon-perm_media',
+      'menu_icon' => 'dashicons-icon-inventory',
       'supports' =>
       array(
         0 => 'title',
         1 => 'thumbnail',
         2 => 'excerpt',
-        3 => 'editor',
       ),
     );
   }
 
   public static function fields()
   {
-    Container::make('post_meta', __('Gallery', 'wpbuilder'))
+    Container::make('post_meta', __('Product', 'wpbuilder'))
       ->where('post_type', '=', self::TYPE)
       ->add_tab(__('Images', 'wpbuilder'), array(
-        Field::make('complex', 'crb_gallery_images', __('Images', 'wpbuilder'))
+        Field::make('complex', 'crb_product_images', __('Images', 'wpbuilder'))
           ->set_layout('grid')
           ->add_fields(array(
             Field::make('image', 'crb_image', __('Image', 'wpbuilder')),
             Field::make('text', 'crb_title', __('Title', 'wpbuilder')),
             Field::make('textarea', 'crb_description', __('Description', 'wpbuilder')),
           ))
+          ->set_max(4)
           ->set_layout('tabbed-vertical')
           ->set_header_template('<%- title %>')
           ->set_collapsed(true),
