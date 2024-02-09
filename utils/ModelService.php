@@ -88,6 +88,7 @@ class ModelService
                     // read the file and get the icon
                     $icon = '';
                     $file_path = WPBUILDER_THEME_PATH . "/models/custom/$model_key.php";
+                    $file_path = file_exists($file_path) ? $file_path : WPBUILDER_DIR . "/models/custom/$model_key.php";
                     if (file_exists($file_path)) {
                         $file = file_get_contents($file_path);
                         $icon = '';

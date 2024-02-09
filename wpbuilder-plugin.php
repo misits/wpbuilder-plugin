@@ -172,3 +172,6 @@ add_action('after_setup_theme', function () {
     require_once('vendor/autoload.php');
     \Carbon_Fields\Carbon_Fields::boot();
 });
+
+
+add_filter('carbon_fields_theme_options_container_admin_only_access', '__return_false');

@@ -19,7 +19,7 @@ if (OptionSite::crb('crb_cookie_page') && OptionSite::crb('crb_cookie_page')[0][
 
 <section id="tracking-consent-wp-front">
     <div id="consent-form" class="consent-form">
-        <div class="consent-form_desctiption">
+        <div class="consent-form__description">
             <p><?php echo __(OptionSite::crb('crb_cookie_description'), 'wpbuilder') ?></p>
         </div>
         <div class="consent-form__actions">

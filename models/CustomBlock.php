@@ -25,6 +25,11 @@ abstract class CustomBlock
         $setting['name'] = static::TYPE;
 
         $file = WPBUILDER_THEME_PATH . '/partials/blocks/' . static::TYPE . '.php';
+
+        if (!file_exists($file)) {
+            $file = WPBUILDER_DIR . '/partials/blocks/' . static::TYPE . '.php';
+        }
+
         if (!file_exists($file)) {
             throw new \Exception('Missing block template ' . $file);
         }

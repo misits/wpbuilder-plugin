@@ -16,7 +16,7 @@ class OptionCookie extends OptionPage
         'page_title' => 'Cookie Options',
         'menu_title' => 'Cookie Policy',
         'redirect' => false,
-        'position' => 3,
+        'position' => 2,
         'menu_icon' => 'dashicons-icon-security',
     ];
 
@@ -27,7 +27,7 @@ class OptionCookie extends OptionPage
 
     public static function fields()
     {
-        Container::make('theme_options', __(self::PARAMS['page_title'], 'wpbuilder'))
+        $parent = Container::make('theme_options', __(self::PARAMS['page_title'], 'wpbuilder'))
             ->set_page_menu_title(__(self::PARAMS['menu_title'], 'wpbuilder'))
             ->set_icon(self::PARAMS['menu_icon'])
             ->set_page_menu_position(self::PARAMS['position'])
