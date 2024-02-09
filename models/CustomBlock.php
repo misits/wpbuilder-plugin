@@ -44,7 +44,7 @@ abstract class CustomBlock
     {
         echo \WPbuilder\render_partial(join('/', ['blocks', static::TYPE]), [
             'block' => json_decode(json_encode($attributes), FALSE),
-            'fields' => $fields,
+            'fields' => json_decode(json_encode($fields), FALSE),
             'inner_blocks' => $inner_blocks,
         ]);
     }

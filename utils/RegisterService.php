@@ -295,7 +295,7 @@ class RegisterService
         $phpContent .= '                Field::make(\'text\', \'title\', __(\'Title\', \'wpbuilder\'))' . PHP_EOL;
         $phpContent .= '            ))' . PHP_EOL;
         $phpContent .= '            ->set_description(__(self::settings()["description"], \'wpbuilder\'))' . PHP_EOL;
-        $phpContent .= '            ->set_category(\'wpbuilder\', self::TYPE, self::settings()["icon"])' . PHP_EOL;
+        $phpContent .= '            ->set_category(\'wpbuilder\', self::TYPE, self::settings()["menu_icon"])' . PHP_EOL;
         $phpContent .= '            ->set_render_callback(function ($fields, $attributes, $inner_blocks) {' . PHP_EOL;
         $phpContent .= '                static::render($fields, $attributes, $inner_blocks);' . PHP_EOL;
         $phpContent .= '            });' . PHP_EOL;
