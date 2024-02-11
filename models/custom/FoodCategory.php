@@ -5,15 +5,15 @@ namespace WPbuilder\models\custom;
 defined('ABSPATH') or exit;
 
 use WPbuilder\models\Taxonomy;
-use WPbuilder\models\custom\Product;
+use WPbuilder\models\custom\Food;
 
-class ProductCategory extends Taxonomy
+class FoodCategory extends Taxonomy
 {
-  const TYPE = 'product_category';
+  const TYPE = 'food_category';
 
   public static function register()
   {
-    register_taxonomy(self::TYPE, Product::TYPE, array(
+    register_taxonomy(self::TYPE, Food::TYPE, array(
       'hierarchical' => true,
       'show_admin_column' => true,
       'publicly_queryable' => false,
@@ -40,7 +40,12 @@ class ProductCategory extends Taxonomy
 
   private static function default_categories()
   {
-    $default = array();
+    $default = array(
+      __('Appetizer', 'wpbuilder'),
+      __('Main Course', 'wpbuilder'),
+      __('Dessert', 'wpbuilder'),
+      __('Beverage', 'wpbuilder'),
+    );
 
     return $default;
   }

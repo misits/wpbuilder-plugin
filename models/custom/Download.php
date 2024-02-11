@@ -65,7 +65,7 @@ class Download extends CustomPostType implements \JsonSerializable
 
   public static function fields()
   {
-    Container::make('post_meta', __('Download', 'wpbuilder'))
+    Container::make('post_meta', __('Downloads', 'wpbuilder'))
       ->where('post_type', '=', self::TYPE)
       ->add_tab(__('Downloads', 'wpbuilder'), array(
         Field::make('complex', 'crb_download_images', __('Files', 'wpbuilder'))
@@ -77,7 +77,7 @@ class Download extends CustomPostType implements \JsonSerializable
           ))
           ->set_max(4)
           ->set_layout('tabbed-vertical')
-          ->set_header_template('<%- title %>')
+          ->set_header_template('<%- crb_title %>')
           ->set_collapsed(true),
       ));
   }

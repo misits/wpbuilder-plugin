@@ -96,8 +96,8 @@ class AssetService
                 window.__vite_plugin_react_preamble_installed__ = true
             </script>';
             echo '<script type="module" crossorigin src="http://localhost:5173/@vite/client"></script>';
-            echo '<script type="module" crossorigin src="http://localhost:5173/src/react.jsx"></script>';
-            echo '<script type="module" crossorigin src="http://localhost:5173/src/vue.js"></script>';
+            echo '<script type="module" crossorigin src="http://localhost:5173/src/javascript/react.jsx"></script>';
+            echo '<script type="module" crossorigin src="http://localhost:5173/src/javascript/vue.js"></script>';
             echo '<!-- End Vite Dev Server -->';
         } else {
             echo '<!-- Vite Dev Server -->';

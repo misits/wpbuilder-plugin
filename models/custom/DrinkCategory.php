@@ -5,15 +5,15 @@ namespace WPbuilder\models\custom;
 defined('ABSPATH') or exit;
 
 use WPbuilder\models\Taxonomy;
-use WPbuilder\models\custom\Product;
+use WPbuilder\models\custom\Drink;
 
-class ProductCategory extends Taxonomy
+class DrinkCategory extends Taxonomy
 {
-  const TYPE = 'product_category';
+  const TYPE = 'drink_category';
 
   public static function register()
   {
-    register_taxonomy(self::TYPE, Product::TYPE, array(
+    register_taxonomy(self::TYPE, Drink::TYPE, array(
       'hierarchical' => true,
       'show_admin_column' => true,
       'publicly_queryable' => false,
@@ -40,7 +40,16 @@ class ProductCategory extends Taxonomy
 
   private static function default_categories()
   {
-    $default = array();
+    $default = array(
+      __('Beer', 'wpbuilder'),
+      __('Wine', 'wpbuilder'),
+      __('Cocktail', 'wpbuilder'),
+      __('Soda', 'wpbuilder'),
+      __('Juice', 'wpbuilder'),
+      __('Water', 'wpbuilder'),
+      __('Coffee', 'wpbuilder'),
+      __('Tea', 'wpbuilder'),
+    );
 
     return $default;
   }

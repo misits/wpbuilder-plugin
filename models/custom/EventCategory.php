@@ -21,17 +21,17 @@ class EventCategory extends Taxonomy
       'show_in_rest' => true,
       'labels' =>
       array(
-        'name' => __('Categories', 'merps'),
-        'singular_name' => __('Category', 'merps'),
-        'search_items' => __('Search categories', 'merps'),
-        'all_items' => __('All categories', 'merps'),
-        'parent_item' => __('Parent category', 'merps'),
-        'parent_item_colon' => __('Parent category:', 'merps'),
-        'edit_item' => __('Edit category', 'merps'),
-        'update_item' => __('Update category', 'merps'),
-        'add_new_item' => __('Add new category', 'merps'),
-        'new_item_name' => __('New category name', 'merps'),
-        'menu_name' => __('Categories', 'merps'),
+        'name' => __('Categories', 'wpbuilder'),
+        'singular_name' => __('Category', 'wpbuilder'),
+        'search_items' => __('Search categories', 'wpbuilder'),
+        'all_items' => __('All categories', 'wpbuilder'),
+        'parent_item' => __('Parent category', 'wpbuilder'),
+        'parent_item_colon' => __('Parent category:', 'wpbuilder'),
+        'edit_item' => __('Edit category', 'wpbuilder'),
+        'update_item' => __('Update category', 'wpbuilder'),
+        'add_new_item' => __('Add new category', 'wpbuilder'),
+        'new_item_name' => __('New category name', 'wpbuilder'),
+        'menu_name' => __('Categories', 'wpbuilder'),
       ),
     ));
 
@@ -42,17 +42,17 @@ class EventCategory extends Taxonomy
       'show_in_rest' => true,
       'labels' =>
       array(
-        'name' => __('Locations', 'merps'),
-        'singular_name' => __('Location', 'merps'),
-        'search_items' => __('Search locations', 'merps'),
-        'all_items' => __('All locations', 'merps'),
-        'parent_item' => __('Parent location', 'merps'),
-        'parent_item_colon' => __('Parent location:', 'merps'),
-        'edit_item' => __('Edit location', 'merps'),
-        'update_item' => __('Update location', 'merps'),
-        'add_new_item' => __('Add new location', 'merps'),
-        'new_item_name' => __('New location name', 'merps'),
-        'menu_name' => __('Locations', 'merps'),
+        'name' => __('Locations', 'wpbuilder'),
+        'singular_name' => __('Location', 'wpbuilder'),
+        'search_items' => __('Search locations', 'wpbuilder'),
+        'all_items' => __('All locations', 'wpbuilder'),
+        'parent_item' => __('Parent location', 'wpbuilder'),
+        'parent_item_colon' => __('Parent location:', 'wpbuilder'),
+        'edit_item' => __('Edit location', 'wpbuilder'),
+        'update_item' => __('Update location', 'wpbuilder'),
+        'add_new_item' => __('Add new location', 'wpbuilder'),
+        'new_item_name' => __('New location name', 'wpbuilder'),
+        'menu_name' => __('Locations', 'wpbuilder'),
       ),
     ));
 
@@ -63,7 +63,7 @@ class EventCategory extends Taxonomy
   private static function default_categories()
   {
     $default = array(
-      __('Other', 'merps'),
+      __('Other', 'wpbuilder'),
     );
 
     return $default;
@@ -72,7 +72,7 @@ class EventCategory extends Taxonomy
   private static function default_locations()
   {
     $default = array(
-      __('Virtual', 'merps'),
+      __('Virtual', 'wpbuilder'),
     );
 
     return $default;
