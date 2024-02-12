@@ -77,46 +77,178 @@ class ModelService
             update_option('wpbuilder_enabled_models', $options);
         }
 
-        // Display the settings form
 ?>
         <div class="wrap">
-            <h2>Model Settings</h2>
-            <p><?= __('Check the boxes below to enable the corresponding post type.', 'wpbuilder') ?></p>
-            <form method="post" class="wpbuilder-models">
-                <?php foreach ($models as $model) :
-                    $model_key = basename($model, '.php');
-                    // read the file and get the icon
-                    $icon = '';
-                    $file_path = WPBUILDER_THEME_PATH . "/models/custom/$model_key.php";
-                    $file_path = file_exists($file_path) ? $file_path : WPBUILDER_DIR . "/models/custom/$model_key.php";
-                    if (file_exists($file_path)) {
-                        $file = file_get_contents($file_path);
-                        $icon = '';
-                        // check if container Category
-                        if (str_contains($model_key, 'Category')) {
-                            $icon = 'dashicons-category';
-                        } else if (str_contains($model_key, 'Block')) {
-                            $icon = 'dashicons-block-default';
-                        } else {
-                            preg_match("/'menu_icon' => '(.+?)'/", $file, $icon);
-                            $icon = $icon[1];
-                        }
-                    }
-                ?>
-                    <label class="model">
-                        <input type="checkbox" name="<?php echo esc_attr($model_key); ?>" value="1" <?php checked(isset($options[$model_key]) ? $options[$model_key] : 0); ?>>
-                        <span class="wp-menu-image dashicons-before <?php echo esc_attr($icon); ?>"></span>
-                        <?php echo esc_html($model_key); ?>
-                    </label>
-                <?php endforeach; ?>
-                <p class="submit">
-                    <input type="submit" class="button-primary" name="submit" value="Save Changes">
-                </p>
-            </form>
-        </div>
-<?php
+            <h2 class="nav-tab-wrapper">
+                <a class="nav-tab nav-tab-active" href="#tab1"><?php _e('All CPT', 'wpbuilder'); ?></a>
+                <a class="nav-tab" href="#tab2"><?php _e('New Model', 'wpbuilder'); ?></a>
+                <a class="nav-tab" href="#tab3"><?php _e('New Block', 'wpbuilder'); ?></a>
+            </h2>
 
-        RegisterService::render_create_model_tab();
+            <?php
+            // Enqueue scripts
+            wp_enqueue_script('wpbuilder-ajax-scripts', WPBUILDER_URL . '/admin/assets/js/admin-ajax.js', array('jquery'), null, true);
+
+            wp_localize_script('wpbuilder-ajax-scripts', 'cptwp_admin_vars', array(
+                'ajax_url' => admin_url('admin-ajax.php'),
+                'nonces' => array(
+                    'generate_template' => wp_create_nonce('generate_template_nonce'),
+                ),
+            ));
+            ?>
+
+            <div id="response-message"></div>
+
+            <!-- Model content -->
+            <div id="tab1" class="tab-content">
+                <h3><?php _e('All CPT', 'wpbuilder'); ?></h3>
+                <div class="wrap">
+                    <p><?= __('Check the boxes below to enable the corresponding post type.', 'wpbuilder') ?></p>
+                    <form method="post" class="wpbuilder-models">
+                        <?php foreach ($models as $model) :
+                            $model_key = basename($model, '.php');
+                            // read the file and get the icon
+                            $icon = '';
+                            $file_path = WPBUILDER_THEME_PATH . "/models/custom/$model_key.php";
+                            $file_path = file_exists($file_path) ? $file_path : WPBUILDER_DIR . "/models/custom/$model_key.php";
+                            if (file_exists($file_path)) {
+                                $file = file_get_contents($file_path);
+                                $icon = '';
+                                // check if container Category
+                                if (str_contains($model_key, 'Category')) {
+                                    $icon = 'dashicons-category';
+                                } else if (str_contains($model_key, 'Block')) {
+                                    $icon = 'dashicons-block-default';
+                                } else {
+                                    preg_match("/'menu_icon' => '(.+?)'/", $file, $icon);
+                                    $icon = $icon[1];
+                                }
+                            }
+                        ?>
+                            <label class="model">
+                                <input type="checkbox" name="<?php echo esc_attr($model_key); ?>" value="1" <?php checked(isset($options[$model_key]) ? $options[$model_key] : 0); ?>>
+                                <span class="wp-menu-image dashicons-before <?php echo esc_attr($icon); ?>"></span>
+                                <?php echo esc_html($model_key); ?>
+                            </label>
+                        <?php endforeach; ?>
+                        <p class="submit">
+                            <input type="submit" class="button-primary" name="submit" value="Save Changes">
+                        </p>
+                    </form>
+                </div>
+            </div>
+
+
+            <!-- Model content -->
+            <div id="tab2" class="tab-content">
+                <h3><?php _e('Create New Model', 'wpbuilder'); ?></h3>
+
+                <form id="create-model-form">
+                    <div class="fields">
+                        <?php
+                        // Define the field data
+                        $fields = array(
+                            'model_name' => __("Name", "wpbuilder"),
+                            'model_label' => __("Label", "wpbuilder"),
+                            'model_singular_name' => __("Singular Name", "wpbuilder"),
+                            'model_slug' => __("Slug", "wpbuilder"),
+                            'model_menu_name' => __("Menu Name", "wpbuilder"),
+                            'model_all_items' => __("All Items", "wpbuilder"),
+                            'model_add_new' => __("Add New", "wpbuilder"),
+                            'model_add_new_item' => __("Add new Item", "wpbuilder"),
+                            'model_edit_item' => __("Edit Item", "wpbuilder"),
+                            'model_new_item' => __("New Item", "wpbuilder"),
+                            'model_view_item' => __("View Item", "wpbuilder"),
+                            'model_view_items' => __("View Items", "wpbuilder"),
+                            'model_search_items' => __("Search Items", "wpbuilder"),
+                            'model_supports' => __("Supports", "wpbuilder"),
+                        );
+
+                        $placeholder = array(
+                            'model_name' => __("Demo", "wpbuilder"),
+                            'model_label' => __("Demos", "wpbuilder"),
+                            'model_singular_name' => __("Demo", "wpbuilder"),
+                            'model_slug' => __("demos", "wpbuilder"),
+                            'model_menu_name' => __("Demos", "wpbuilder"),
+                            'model_all_items' => __("All demos", "wpbuilder"),
+                            'model_add_new' => __("Add new", "wpbuilder"),
+                            'model_add_new_item' => __("Add new demo", "wpbuilder"),
+                            'model_edit_item' => __("Edit demo", "wpbuilder"),
+                            'model_new_item' => __("New demo", "wpbuilder"),
+                            'model_view_item' => __("View demo", "wpbuilder"),
+                            'model_view_items' => __("View demos", "wpbuilder"),
+                            'model_search_items' => __("Search demo", "wpbuilder"),
+                            'model_supports' => __("title, editor, thumbnail, excerpt", "wpbuilder"),
+                        );
+
+                        // HTML form fields
+                        foreach ($fields as $field_name => $label) {
+                        ?>
+                            <div class="field">
+                                <label for="<?php echo esc_attr($field_name); ?>"><?php echo esc_html($label); ?>:</label>
+                                <input value="<?php echo $placeholder[$field_name] ?>" type="text" id="<?php echo esc_attr($field_name); ?>" name="<?php echo esc_attr($field_name); ?>" required>
+                            </div>
+                        <?php
+                        }
+                        ?>
+
+                        <!-- Icon Select Menu -->
+                        <div class="field">
+                            <label for="model_icon"><?php _e("Icon", "wpbuilder"); ?>: <span id="icon_preview" class="icon-preview"></span></label>
+                            <select id="model_icon" name="model_icon">
+                                <?php foreach (Icon::ICONS as $icon_key => $icon_value) : ?>
+                                    <option value="<?php echo esc_attr($icon_key); ?>">
+                                        <?php echo esc_html($icon_value); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <!-- Checkbox to create a category -->
+                        <div class="field">
+                            <label for="create_category"><?php _e("Create category", "wpbuilder"); ?>:</label>
+                            <input type="checkbox" id="create_category" name="create_category" value="1">
+                        </div>
+
+                    </div>
+
+                    <?php wp_nonce_field('create_model_nonce', 'create_model_nonce'); ?>
+
+                    <div class="field field--submit">
+                        <input class="button button-primary" type="submit" value="Create Model">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Block content -->
+            <div id="tab3" class="tab-content" style="display: none;">
+                <h3><?php _e('Create New Block', 'wpbuilder'); ?></h3>
+                <form id="create-block-form">
+                    <div class="fields">
+                        <div class="field">
+                            <label for="block_title"><?php _e("Title", "wpbuilder"); ?>:</label>
+                            <input type="text" id="block_title" name="block_title" required>
+                        </div>
+                        <div class="field">
+                            <label for="block_description"><?php _e("Description", "wpbuilder"); ?>:</label>
+                            <input type="text" id="block_description" name="block_description" required>
+                        </div>
+                        <div class="field">
+                            <label for="block_icon"><?php _e("Icon", "wpbuilder"); ?>:</label>
+                            <input type="text" id="block_icon" name="block_icon" value="dashicons-block-default">
+                        </div>
+                        <div class="field">
+                            <label for="block_keywords"><?php _e("Keywords", "wpbuilder"); ?>:</label>
+                            <input type="text" id="block_keywords" name="block_keywords" value="section, wpbuilder-block">
+                        </div>
+                    </div>
+                    <?php wp_nonce_field('create_block_nonce', 'create_block_nonce'); ?>
+                    <div class="field field--submit">
+                        <input class="button button-primary" type="submit" value="Create Block">
+                    </div>
+                </form>
+            </div>
+    <?php
     }
 
 
@@ -144,8 +276,7 @@ class ModelService
 
         foreach ($custom_models as $key => $model) {
             $model_name = basename($model, ".php");
-            if (!array_key_exists($model_name, $options))
-            {
+            if (!array_key_exists($model_name, $options)) {
                 unset($custom_models[$key]);
             }
         }

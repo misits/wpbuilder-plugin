@@ -24,6 +24,7 @@ define('WPBUILDER_URL', plugin_dir_url(__FILE__));
 define('WPBUILDER_THEME_PATH', get_template_directory());
 define('WPBUILDER_THEME_URL', get_template_directory_uri());
 define('WPBUILDER_THEME_VIEWS_PATH', get_template_directory() . '/templates');
+define('WPBUILDER_DOMAIN', get_option('site_domain', 'wpbuilder'));
 
 // Autoload classes.
 spl_autoload_register(function ($class) {

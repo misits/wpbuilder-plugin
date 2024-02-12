@@ -122,6 +122,7 @@ class MainService
             register_setting('wordpress-wpbuilder-plugin', 'custom_menu_settings');
             register_setting('wordpress-wpbuilder-plugin', 'upload_size_limit', 'intval');
             register_setting('wordpress-wpbuilder-plugin', 'remove_woocommcerce_styles');
+            register_setting('wordpress-wpbuilder-plugin', 'site_domain');
         });
         add_action('admin_menu', function () {
             add_menu_page(
@@ -455,6 +456,13 @@ class MainService
                 update_option('maintenance_mode', isset($_POST['maintenance_mode']) ? 1 : 0);
             }
 
+            if (isset($_POST['site_domain_nonce']) && !wp_verify_nonce($_POST['site_domain_nonce'], 'site_domain_action')) {
+                print _e('Sorry, your nonce did not verify.');
+                exit;
+            } else {
+                update_option('site_domain', isset($_POST['site_domain']) ? $_POST['site_domain'] : 'wpbuilder');
+            }
+
             if (isset($_POST['max_upload_size_nonce']) && !wp_verify_nonce($_POST['max_upload_size_nonce'], 'max_upload_size_action')) {
                 print _e('Sorry, your nonce did not verify.');
                 exit;
@@ -508,6 +516,24 @@ class MainService
                     ?>
                 </p>
             </div>
+            <!-- Site domaine -->
+            <div class="settings site_domain">
+                <h2><?php _e('Site domain', 'wpbuilder'); ?></h2>
+                <form method="post">
+                    <?php wp_nonce_field('site_domain_action', 'site_domain_nonce'); ?>
+                    <p>
+                        <label for="site_domain">
+                            <?php _e('Set the site domain', 'wpbuilder'); ?>
+                            <input type="text" name="site_domain" id="site_domain" value="<?php echo get_option('site_domain', 'wpbuilder'); ?>">
+                        </label>
+                    </p>
+                    <p class="submit">
+                        <input type="submit" name="submit" class="button-primary" value="Save Changes">
+                    </p>
+                </form>
+                <hr />
+            </div>
+
             <!-- Max upload size -->
             <div class="settings max-upload-size">
                 <h2><?php _e('Max upload size', 'wpbuilder'); ?></h2>

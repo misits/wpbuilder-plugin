@@ -43,6 +43,12 @@
     opacity: 0;
 }
 
+.wpbuilder-models {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+}
+
 .wpbuilder-models .model {
     display: flex;
     align-items: center;
@@ -110,6 +116,7 @@
 
 
 @media screen and (max-width: 768px) {
+    .wpbuilder-models,
     #wpbuilder-settings,
     #create-block-form .fields,
     #create-model-form .fields {
