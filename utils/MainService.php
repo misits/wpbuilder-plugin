@@ -6,6 +6,7 @@ namespace WPbuilder\utils;
 defined('ABSPATH') or exit;
 
 use WPbuilder\utils\AssetService;
+use WPbuilder\utils\WooService;
 use WPbuilder\models\OptionSite;
 
 class MainService
@@ -39,11 +40,11 @@ class MainService
 
     public static function templates_directory()
     {
-        // Hook into the template_include filter
+            // Hook into the template_include filter
         add_filter('template_include', function ($template) {
-
             $views_path = WPBUILDER_THEME_VIEWS_PATH;
             $custom_template = $template;
+            $types = [];
 
             if (is_singular()) {
                 $types[] = 'singular-' . get_post_type();
@@ -82,6 +83,10 @@ class MainService
                 $types[] = 'front-page';
             }
 
+            if (class_exists('WooCommerce') && is_shop()) {
+                $types[] = 'shop';
+            }
+
             if (is_page()) {
                 if (is_page_template()) {
                     $types[] = 'template-' . str_replace('.php', '', get_page_template_slug());
@@ -103,6 +108,8 @@ class MainService
                 $types[] = 'archive-' . get_post_type();
                 $types[] = 'archive';
             }
+
+
 
             foreach ($types as $type) {
                 if (file_exists($views_path . '/' . $type . '.php')) {
@@ -483,84 +490,48 @@ class MainService
             <h1>WPbuilder</h1>
 
             <div id="wpbuilder-settings">
-            <div class="settings current-theme">
-                <h2><?php _e('Current theme', 'wpbuilder'); ?></h2>
-                <p>
-                    <strong><?php _e('Name', 'wpbuilder'); ?>:</strong>
-                    <?php
-                    if (WPBUILDER_THEME_PATH) {
-                        echo esc_html(basename(WPBUILDER_THEME_PATH));
-                    } else {
-                        echo 'None';
-                    }
-                    ?>
-                </p>
-                <p>
-                    <strong><?php _e('URL', 'wpbuilder') ?>:</strong>
-                    <?php
-                    if (WPBUILDER_THEME_URL) {
-                        echo esc_html(WPBUILDER_THEME_URL);
-                    } else {
-                        echo 'None';
-                    }
-                    ?>
-                </p>
-                <p>
-                    <strong><?php _e('Directory', 'wpbuilder'); ?>:</strong>
-                    <?php
-                    if (WPBUILDER_THEME_PATH) {
-                        echo esc_html(WPBUILDER_THEME_PATH);
-                    } else {
-                        echo 'None';
-                    }
-                    ?>
-                </p>
-            </div>
-            <!-- Site domaine -->
-            <div class="settings site_domain">
-                <h2><?php _e('Site domain', 'wpbuilder'); ?></h2>
-                <form method="post">
-                    <?php wp_nonce_field('site_domain_action', 'site_domain_nonce'); ?>
+                <div class="settings current-theme">
+                    <h2><?php _e('Current theme', 'wpbuilder'); ?></h2>
                     <p>
-                        <label for="site_domain">
-                            <?php _e('Set the site domain', 'wpbuilder'); ?>
-                            <input type="text" name="site_domain" id="site_domain" value="<?php echo get_option('site_domain', 'wpbuilder'); ?>">
-                        </label>
+                        <strong><?php _e('Name', 'wpbuilder'); ?>:</strong>
+                        <?php
+                        if (WPBUILDER_THEME_PATH) {
+                            echo esc_html(basename(WPBUILDER_THEME_PATH));
+                        } else {
+                            echo 'None';
+                        }
+                        ?>
                     </p>
-                    <p class="submit">
-                        <input type="submit" name="submit" class="button-primary" value="Save Changes">
-                    </p>
-                </form>
-                <hr />
-            </div>
-
-            <!-- Max upload size -->
-            <div class="settings max-upload-size">
-                <h2><?php _e('Max upload size', 'wpbuilder'); ?></h2>
-                <form method="post">
-                    <?php wp_nonce_field('max_upload_size_action', 'max_upload_size_nonce'); ?>
                     <p>
-                        <label for="upload_size_limit">
-                            <?php _e('Set the maximum upload size (Bytes)', 'wpbuilder'); ?>:
-                            <input type="number" name="upload_size_limit" id="upload_size_limit" value="<?php echo get_option('upload_size_limit', 5242880); ?>">
-                        </label>
+                        <strong><?php _e('URL', 'wpbuilder') ?>:</strong>
+                        <?php
+                        if (WPBUILDER_THEME_URL) {
+                            echo esc_html(WPBUILDER_THEME_URL);
+                        } else {
+                            echo 'None';
+                        }
+                        ?>
                     </p>
-                    <p class="submit">
-                        <input type="submit" name="submit" class="button-primary" value="Save Changes">
+                    <p>
+                        <strong><?php _e('Directory', 'wpbuilder'); ?>:</strong>
+                        <?php
+                        if (WPBUILDER_THEME_PATH) {
+                            echo esc_html(WPBUILDER_THEME_PATH);
+                        } else {
+                            echo 'None';
+                        }
+                        ?>
                     </p>
-                </form>
-                <hr />
-            </div>
-            <?php if (WooService::is_active()) { ?>
-                <!-- Remove WooCommerce styles -->
-                <div class="settings remove-woocommerce-styles">
-                    <h2><?php _e('Remove WooCommerce styles', 'wpbuilder'); ?></h2>
+                </div>
+                <!-- Site domaine -->
+                <div class="settings site_domain">
+                    <h2><?php _e('Site domain', 'wpbuilder'); ?></h2>
                     <form method="post">
-                        <?php wp_nonce_field('remove_woocommcerce_styles_action', 'remove_woocommcerce_styles_nonce'); ?>
+                        <?php wp_nonce_field('site_domain_action', 'site_domain_nonce'); ?>
                         <p>
-                            <label for="remove_woocommcerce_styles">
-                                <input type="checkbox" name="remove_woocommcerce_styles" id="remove_woocommcerce_styles" value="1" <?php checked(get_option('remove_woocommcerce_styles', 0), 1); ?>>
-                                <?php _e('Remove WooCommerce styles', 'wpbuilder') ?>
+                            <label for="site_domain">
+                                <?php _e('Set the site domain', 'wpbuilder'); ?>
+                                <input type="text" name="site_domain" id="site_domain" value="<?php echo get_option('site_domain', 'wpbuilder'); ?>">
                             </label>
                         </p>
                         <p class="submit">
@@ -569,7 +540,43 @@ class MainService
                     </form>
                     <hr />
                 </div>
-            <?php } ?>
+
+                <!-- Max upload size -->
+                <div class="settings max-upload-size">
+                    <h2><?php _e('Max upload size', 'wpbuilder'); ?></h2>
+                    <form method="post">
+                        <?php wp_nonce_field('max_upload_size_action', 'max_upload_size_nonce'); ?>
+                        <p>
+                            <label for="upload_size_limit">
+                                <?php _e('Set the maximum upload size (Bytes)', 'wpbuilder'); ?>:
+                                <input type="number" name="upload_size_limit" id="upload_size_limit" value="<?php echo get_option('upload_size_limit', 5242880); ?>">
+                            </label>
+                        </p>
+                        <p class="submit">
+                            <input type="submit" name="submit" class="button-primary" value="Save Changes">
+                        </p>
+                    </form>
+                    <hr />
+                </div>
+                <?php if (WooService::is_active()) { ?>
+                    <!-- Remove WooCommerce styles -->
+                    <div class="settings remove-woocommerce-styles">
+                        <h2><?php _e('Remove WooCommerce styles', 'wpbuilder'); ?></h2>
+                        <form method="post">
+                            <?php wp_nonce_field('remove_woocommcerce_styles_action', 'remove_woocommcerce_styles_nonce'); ?>
+                            <p>
+                                <label for="remove_woocommcerce_styles">
+                                    <input type="checkbox" name="remove_woocommcerce_styles" id="remove_woocommcerce_styles" value="1" <?php checked(get_option('remove_woocommcerce_styles', 0), 1); ?>>
+                                    <?php _e('Remove WooCommerce styles', 'wpbuilder') ?>
+                                </label>
+                            </p>
+                            <p class="submit">
+                                <input type="submit" name="submit" class="button-primary" value="Save Changes">
+                            </p>
+                        </form>
+                        <hr />
+                    </div>
+                <?php } ?>
             </div>
         </div>
 <?php

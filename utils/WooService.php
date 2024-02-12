@@ -12,15 +12,15 @@ class WooService
         // WooCommerce active ?
         if (self::is_active()) {
             add_action("wp_enqueue_scripts", [self::class, "enqueue_scripts"]);
+            add_action('after_setup_theme', function () {
+                // add woocommerce support
+                add_theme_support('woocommerce');
+            });
 
-            if (intval(get_option('remove_woocommcerce_styles')) === 1)
+            if (intval(get_option('remove_woocommcerce_styles')))
             {
-                add_action('after_setup_theme', function () {
-                    // add woocommerce support
-                    add_theme_support('woocommerce');
-                    // disable woocommerce styles
-                    add_filter('woocommerce_enqueue_styles', '__return_false');
-                });
+                
+                add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
     
                 add_action('enqueue_block_assets', function () {
                     // remove block styles
@@ -33,6 +33,9 @@ class WooService
                 // remove woocommerce hooks
                 self::remove_hooks();
             });
+
+            // Menu
+            self::add_default_pages_to_menu();
         }
     }
 
@@ -103,5 +106,43 @@ class WooService
     public static function get_my_account_url()
     {
         return get_permalink(wc_get_page_id('myaccount'));
+    }
+
+    /**
+     * Add all default woocommerce pages in woocommerce_menu
+     */
+    public static function add_default_pages_to_menu()
+    {
+        $pages = array(
+            'shop' => __('Shop', 'woocommerce'),
+            'cart' => __('Cart', 'woocommerce'),
+            'checkout' => __('Checkout', 'woocommerce'),
+            'myaccount' => __('My account', 'woocommerce'),
+        );
+
+        // is woocommerce active
+        if (self::is_active()) {
+            // get woocommerce menu
+            $menu = wp_get_nav_menu_object('Menu WooCommerce');
+
+            // if woocommerce menu exists add pages
+            if ($menu) {
+                foreach ($pages as $key => $value) {
+                    // get page
+                    $page = get_page_by_path($key);
+
+                    // if page exists add it to menu
+                    if ($page) {
+                        wp_update_nav_menu_item($menu->term_id, 0, array(
+                            'menu-item-title' => $value,
+                            'menu-item-object' => 'page',
+                            'menu-item-object-id' => $page->ID,
+                            'menu-item-type' => 'post_type',
+                            'menu-item-status' => 'publish',
+                        ));
+                    }
+                }
+            }
+        }
     }
 }

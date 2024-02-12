@@ -14,8 +14,14 @@ class Product extends CustomPostType implements \JsonSerializable
   const TYPE = 'product';
   const SLUG = 'product';
 
+  private $_product = null;
+
   public static function type_settings()
   {
+    if (!class_exists('WooCommerce')) {
+      return;
+    }
+
     return array(
       'menu_position' => 2.2,
       'label' => __('Product', 'wpbuilder'),
@@ -66,20 +72,7 @@ class Product extends CustomPostType implements \JsonSerializable
   public static function fields()
   {
     Container::make('post_meta', __('Product', 'wpbuilder'))
-      ->where('post_type', '=', self::TYPE)
-      ->add_tab(__('Images', 'wpbuilder'), array(
-        Field::make('complex', 'crb_product_images', __('Images', 'wpbuilder'))
-          ->set_layout('grid')
-          ->add_fields(array(
-            Field::make('image', 'crb_image', __('Image', 'wpbuilder')),
-            Field::make('text', 'crb_title', __('Title', 'wpbuilder')),
-            Field::make('textarea', 'crb_description', __('Description', 'wpbuilder')),
-          ))
-          ->set_max(4)
-          ->set_layout('tabbed-vertical')
-          ->set_header_template('<%- title %>')
-          ->set_collapsed(true),
-      ));
+      ->where('post_type', '=', self::TYPE);
   }
 
   public function jsonSerialize(): mixed
@@ -91,5 +84,77 @@ class Product extends CustomPostType implements \JsonSerializable
       "link" => $this->link(),
       "excerpt" => $this->excerpt(),
     ];
+  }
+
+  public function get_product()
+  {
+    if (!$this->_product) {
+      $this->_product = wc_get_product($this->id());
+    }
+
+    return $this->_product;
+  }
+
+  public function has_price()
+  {
+    $product = $this->get_product();
+    if ($product->is_purchasable() && !empty($product->get_price())) {
+      return true;
+    }
+    return false;
+  }
+
+  public function price()
+  {
+    $product = $this->get_product();
+    return $product->get_price_html();
+  }
+
+  public function get_type()
+  {
+    $product = $this->get_product();
+    return $product->get_type();
+  }
+
+  public function get_manage_stock()
+  {
+    $product = $this->get_product();
+    return $product->get_manage_stock();
+  }
+
+  public function get_stock_quantity()
+  {
+    $product = $this->get_product();
+    return $product->get_stock_quantity();
+  }
+
+  public function render_add_to_cart()
+  {
+    global $product;
+    $product = $this->get_product();
+
+    return do_action('woocommerce_' . $product->get_type() . '_add_to_cart');
+  }
+
+  public function wc_content()
+  {
+    $product = $this->get_product();
+    return $product->get_description();
+  }
+
+  public function get_short_content()
+  {
+    $product = $this->get_product();
+    return $product->get_short_description();
+  }
+
+  public function get_count_variations()
+  {
+    $product = $this->get_product();
+    $variations = null;
+    if ($product->is_type('variable')) {
+      return count($product->get_available_variations());
+    }
+    return $variations;
   }
 }

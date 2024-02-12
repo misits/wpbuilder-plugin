@@ -13,6 +13,10 @@ class ProductCategory extends Taxonomy
 
   public static function register()
   {
+    if (class_exists('WooCommerce')) {
+      return;
+    }
+    
     register_taxonomy(self::TYPE, Product::TYPE, array(
       'hierarchical' => true,
       'show_admin_column' => true,
