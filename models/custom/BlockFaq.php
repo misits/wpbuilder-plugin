@@ -32,6 +32,10 @@ class BlockFaq extends CustomBlock
 
     public static function fields()
     {
+        if (!class_exists('Faq')) {
+            return;
+        }
+
         Block::make(__(self::settings()["title"], 'wpbuilder'))
             ->add_fields(array(
                 Field::make('association',  'crb_faq', __( 'Faq' ) )
