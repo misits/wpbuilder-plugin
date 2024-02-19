@@ -23,6 +23,7 @@ class MainService
         self::templates_directory();
         self::maintenance_mode();
         self::hide_wp_version();
+        self::login_head();
     }
 
     public static function maintenance_mode()
@@ -368,6 +369,89 @@ class MainService
                 50000
             );
         }
+    }
+
+    public static function login_head()
+    {
+        add_action('login_head', function () {
+            echo '<style type ="text/css">
+                #login {
+                    padding: 0;
+                }
+        
+                .login form {
+                    border: 0;
+                    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                }
+        
+                .login {
+                    display: flex;
+                    flex-direction: column;
+                    background-color: #fff;
+                    height: 100vh;
+                }
+        
+                section {
+                    height: 100vh;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                }
+        
+                .login-side--right {
+                    background-color: #f8f9fa;
+                }
+        
+                .login h1 a { 
+                    display:none!important; 
+                }
+        
+                #loginform {
+                    border-radius: 0.25rem;
+                }
+        
+                .grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    grid-template-rows: repeat(2, auto);
+                    grid-gap: 1em;
+                }
+            </style>';
+            echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Create a new section element
+                const body = document.querySelector('body');
+                body.classList.add('grid');
+        
+                let newSection = document.createElement('section');
+              
+                // Get the div elements you want to wrap
+                let loginDiv = document.getElementById('login');
+                let languageSwitcherDiv = document.querySelector('.language-switcher');
+              
+                // Insert the new section before the login div in the DOM
+                loginDiv.parentNode.insertBefore(newSection, loginDiv);
+              
+                // Append the divs to the new section
+                newSection.appendChild(loginDiv);
+                newSection.appendChild(languageSwitcherDiv);
+                body.appendChild(document.createElement('section'));
+                let loginSide = body.querySelectorAll('section');
+        
+                loginSide.forEach(function (element) {
+                    element.classList.add('login-side');
+        
+                    if (element === loginSide[0]) {
+                        element.classList.add('login-side--left');
+                    } else {
+                        element.classList.add('login-side--right');
+                    }
+                });
+              });
+              
+            </script>";
+        });
     }
 
     public static function hide_wp_version()
