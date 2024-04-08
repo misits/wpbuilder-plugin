@@ -54,14 +54,8 @@ $myUpdateChecker = PucFactory::buildUpdateChecker(
     'wpbuilder'
 );
 
-// Optional: If you're using a private repository, specify the access token like this:
-$auth_token = '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';
-
 //Set the branch that contains the stable release.
 $myUpdateChecker->setBranch('main');
-
-// If you're using a private repository, specify the access token like this:
-$myUpdateChecker->setAuthentication($auth_token);
 
 // Register routes & main utils.
 include(WPBUILDER_DIR . "/main.php");

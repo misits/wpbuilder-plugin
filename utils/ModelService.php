@@ -256,8 +256,8 @@ class ModelService
     {
         // Retrieve the enabled models from the options.
         $options = get_option('wpbuilder_enabled_models', []);
-        $custom_theme_models = WPBUILDER_THEME_PATH . "models/custom";
-        $custom_plugin_models = WPBUILDER_DIR . "models/custom";
+        $custom_theme_models = WPBUILDER_THEME_PATH . "/models/custom";
+        $custom_plugin_models = WPBUILDER_DIR . "/models/custom";
         $custom_models = [];
 
         // Collect custom theme models if available.
@@ -276,19 +276,20 @@ class ModelService
             );
         }
 
+
         // Filter out models that are not enabled or not set to 1 in the options.
         $enabled_custom_models = array_filter($custom_models, function ($model) use ($options) {
             $model_name = basename($model, ".php");
             return isset($options[$model_name]) && $options[$model_name] == 1;
         });
 
-        // Register each enabled model.
+        // Register each enabled model. from the theme or the plugin
         foreach ($enabled_custom_models as $model) {
             $class = "\\WPbuilder\\models\\custom\\" . basename($model, ".php");
-            // Check if the class has a register method and call it.
-            if (method_exists($class, 'register')) {
-                $class::register();
-            }
+                // Register the class
+                if (method_exists($class, 'register')) {
+                    $class::register();
+                }
         }
     }
 }
