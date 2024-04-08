@@ -128,8 +128,8 @@ add_action('carbon_fields_register_fields', function () {
 
     // Retrieve the enabled models from the options.
     $options = get_option('wpbuilder_enabled_models', []);
-    $custom_theme_models = WPBUILDER_THEME_PATH . "models/custom";
-    $custom_plugin_models = WPBUILDER_DIR . "models/custom";
+    $custom_theme_models = WPBUILDER_THEME_PATH . "/models/custom";
+    $custom_plugin_models = WPBUILDER_DIR . "/models/custom";
     $custom_models = [];
 
     // Collect custom theme models if available.
