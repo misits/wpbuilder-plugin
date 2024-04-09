@@ -42,6 +42,8 @@ class OptionCookie extends OptionPage
                     ->set_default_value('Accept'),
                 Field::make('text', 'crb_cookie_decline', __('Decline', 'wpbuilder'))
                     ->set_default_value('Decline'),
+                    Field::make('text', 'crb_cookie_read_more', __('Read More', 'wpbuilder'))
+                    ->set_default_value('Read More'),
                 Field::make('association', 'crb_cookie_page', __('Privacy Policy Page', 'wpbuilder'))
                     ->set_types(array(
                         array(

@@ -69,6 +69,7 @@ $to_register = [
     '\\WPbuilder\\utils\\ModelService',
     '\\WPbuilder\\utils\\RegisterService',
     '\\WPbuilder\\utils\\WooService',
+    '\\WPbuilder\\utils\\MenuService',
 ];
 
 add_action('init', function () use ($to_register) {
