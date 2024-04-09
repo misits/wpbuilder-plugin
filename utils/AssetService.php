@@ -86,24 +86,37 @@ class AssetService
         }
 
         if (self::is_vite_running()) {
+            // Get wp-content directory 
+            $full_url = get_stylesheet_directory_uri();
+
+            // Use site_url() to get the root URL of your WordPress installation
+            $site_url = site_url();
+
+            // Remove the site URL from the full URL, leaving the path
+            $baseURL = str_replace($site_url, '', $full_url);
+
+            // if last part is toolkit, remove it
+            $baseURL = str_replace('/boilerplate', '', $baseURL);
+
             echo '
             <!-- Vite Dev Server -->
             <script type="module">
-                import RefreshRuntime from "http://localhost:5173/@react-refresh"
+                import RefreshRuntime from "http://0.0.0.0:5173' . $baseURL . '/@react-refresh"
                 RefreshRuntime.injectIntoGlobalHook(window)
                 window.$RefreshReg$ = () => {}
                 window.$RefreshSig$ = () => (type) => type
                 window.__vite_plugin_react_preamble_installed__ = true
             </script>';
-            echo '<script type="module" crossorigin src="http://localhost:5173/@vite/client"></script>';
-            echo '<script type="module" crossorigin src="http://localhost:5173/src/javascript/react.jsx"></script>';
-            echo '<script type="module" crossorigin src="http://localhost:5173/src/javascript/vue.js"></script>';
+            echo '<script type="module" crossorigin src="http://0.0.0.0:5173'. $baseURL . '/@vite/client"></script>';
+            echo '<script type="module" crossorigin src="http://0.0.0.0:5173'. $baseURL . '/src/javascript/react/main.jsx"></script>';
+            echo '<script type="module" crossorigin src="http://0.0.0.0:5173'. $baseURL . '/src/javascript/vue/main.js"></script>';
             echo '<!-- End Vite Dev Server -->';
         } else {
             echo '<!-- Vite Dev Server -->';
             echo '<!-- End Vite Dev Server -->';
         }
     }
+
 
 
     public static function is_vite_running()
