@@ -63,11 +63,6 @@ class MainService
                 $types[] = 'tag-' . get_query_var('tag');
             }
 
-
-            if (is_archive()) {
-                $types[] = 'archive';
-            }
-
             if (is_search()) {
                 $types[] = 'search';
             }
@@ -106,11 +101,10 @@ class MainService
             }
 
             if (is_post_type_archive()) {
+                $types[] = 'archive-' . self::pluralize(get_post_type());
                 $types[] = 'archive-' . get_post_type();
                 $types[] = 'archive';
             }
-
-
 
             foreach ($types as $type) {
                 if (file_exists($views_path . '/' . $type . '.php')) {
@@ -122,6 +116,39 @@ class MainService
             return $custom_template;
         });
     }
+
+    public static function pluralize($word, $count = 2) {
+        // Simple pluralization: assumes 'y' -> 'ies', and adds 's' or 'es'
+        if ($count === 1) {
+            return $word;
+        } else {
+            $lastLetter = strtolower($word[strlen($word) - 1]);
+            switch ($lastLetter) {
+                case 'y':
+                    // Words that end in 'y' with a consonant before it, 'y' -> 'ies'
+                    if (preg_match('/[bcdfghjklmnpqrstvwxyz]y$/i', $word)) {
+                        return substr($word, 0, -1) . 'ies';
+                    }
+                    // If the 'y' is preceded by a vowel, simply add 's'
+                    return $word . 's';
+                case 's':
+                case 'x':
+                case 'z':
+                case 'o':
+                    // Most words ending in 's', 'x', 'z', or 'o' add 'es'
+                    return $word . 'es';
+                case 'h':
+                    if (preg_match('/(ch|sh)$/i', $word)) {
+                        // Words ending in 'ch' or 'sh' add 'es'
+                        return $word . 'es';
+                    }
+                    return $word . 's';
+                default:
+                    return $word . 's';
+            }
+        }
+    }
+
 
 
     public static function admin_menu()

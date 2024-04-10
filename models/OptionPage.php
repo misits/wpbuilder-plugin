@@ -14,4 +14,10 @@ abstract class OptionPage
     {
         return carbon_get_theme_option($name);
     }
+
+    public static function has_crb(string $name): bool
+    {
+        error_log(carbon_get_theme_option($name));
+        return empty(carbon_get_theme_option($name));
+    }
 }

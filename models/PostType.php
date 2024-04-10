@@ -519,6 +519,6 @@ abstract class PostType
 
      public function crb(string $name)
     {
-        return carbon_get_post_meta($this->id(), $name) ?? null;
+        return carbon_get_post_meta($this->id(), $name);
     }
 }
