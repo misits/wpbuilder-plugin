@@ -23,6 +23,9 @@ Le theme compatible avec le plugin est [wpbuilder-boilerplate](https://github.co
 
 == Changelog ==
 
+= 1.0.1 =
+- Ajout maintenance mode partials
+
 = 1.0.0 =
 - Initial release.
 
