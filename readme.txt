@@ -23,6 +23,9 @@ Le theme compatible avec le plugin est [wpbuilder-boilerplate](https://github.co
 
 == Changelog ==
 
+= 1.0.2 =
+- Fix admin script tab conflict
+
 = 1.0.1 =
 - Ajout maintenance mode partials
 

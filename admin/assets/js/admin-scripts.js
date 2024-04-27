@@ -5,6 +5,11 @@
  * @class AdminPageHandler
  */
 jQuery(document).ready(function ($) {
+  if (window.location.search.indexOf("page=wpbuilder-manage-models") === -1) {
+    return;
+  }
+
+  
   // Icon select menu
   function updateIconPreview(iconValue) {
     $("#icon_preview").attr(
@@ -93,6 +98,7 @@ jQuery(document).ready(function ($) {
 
   // Tab click event
   $(".nav-tab-wrapper a").on("click", function (e) {
+    // only if query params page=toolkit-manage-models is present
     e.preventDefault();
 
     // Get the href attribute of the clicked tab
