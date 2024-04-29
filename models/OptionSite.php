@@ -34,12 +34,22 @@ class OptionSite extends OptionPage
             ->add_tab(__('Partners', 'wpbuilder'), array(
                 Field::make('complex', 'crb_partners', __('Partners', 'wpbuilder'))
                     ->add_fields(array(
-                        Field::make('image', 'logo', __('Logo', 'wpbuilder')),
-                        Field::make('text', 'label', __('Label', 'wpbuilder')),
-                        Field::make('text', 'url', __('URL', 'wpbuilder')),
+                        Field::make('text', 'partner_type', __('Partner Type', 'wpbuilder')),
+                        Field::make('complex', 'sub_partners', __('Sub-partners', 'wpbuilder'))
+                            ->add_fields(array(
+                                Field::make('image', 'logo', __('Logo', 'wpbuilder'))
+                                    ->set_width(33),
+                                Field::make('text', 'label', __('Label', 'wpbuilder'))
+                                    ->set_width(33),
+                                Field::make('text', 'url', __('URL', 'wpbuilder'))
+                                    ->set_width(33)
+                            ))
+                            ->set_layout('tabbed-horizontal')
+                            ->set_header_template('<%- label %>')
+                            ->set_collapsed(true)
                     ))
-                    ->set_layout('tabbed-vertical')
-                    ->set_header_template('<%- label %>')
+                    ->set_layout('tabbed-horizontal')
+                    ->set_header_template('<%- partner_type %>')
                     ->set_collapsed(true),
             ));
 

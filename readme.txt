@@ -23,6 +23,10 @@ Le theme compatible avec le plugin est [wpbuilder-boilerplate](https://github.co
 
 == Changelog ==
 
+= 1.0.3 =
+- Better partners repeater field
+- Cookie banner style update
+
 = 1.0.2 =
 - Fix admin script tab conflict
 
