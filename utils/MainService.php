@@ -293,6 +293,8 @@ class MainService
             remove_filter("comment_text_rss", "wp_staticize_emoji");
             add_filter("emoji_svg_url", "__return_false");
         });
+
+        add_theme_support( 'title-tag' );
     }
 
     public static function add_filter()
@@ -417,6 +419,12 @@ class MainService
                     background-color: #fff;
                     height: 100vh;
                 }
+
+                @media (max-width: 768px) {
+                    .login {
+                        height: 75vh;   
+                    }
+                }
         
                 section {
                     height: 100vh;
@@ -425,10 +433,37 @@ class MainService
                     justify-content: center;
                     flex-direction: column;
                 }
-        
+
+
                 .login-side--right {
-                    background-color: #f8f9fa;
+                    background-color: #135e96;
+                    position: relative;
+
                 }
+
+                @media (max-width: 768px) {
+                    .login-side--right {
+                        display: none;
+                    }
+                }
+        
+
+                .login-side--right::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    transform: rotate(180deg);
+                    background-image: url(' . WPBUILDER_URL . '/assets/images/logo-bg.svg);
+                    background-size: contain;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    width: 50%;
+                    margin: 0 auto;
+                }
+        
         
                 .login h1 a { 
                     display:none!important; 
