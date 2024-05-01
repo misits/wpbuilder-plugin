@@ -38,6 +38,14 @@ abstract class AbstractMedia extends PostType
     }
 
     /**
+     * Get filename of the media.
+     */
+    public function filename(): string
+    {
+        return basename($this->src());
+    }
+
+    /**
      * Get the media alt description.
      *
      * @return string
