@@ -4,7 +4,7 @@
  * Plugin Name: WPbuilder
  * Description: WPbuilder Theme Plugin
  * Plugin URI: https://github.com/misits/wpbuilder-plugin
- * Version: 1.0.4
+ * Version: 1.0.5
  * Requires at least: 5.2
  * Requires PHP: 8.0
  * Author: Martin IS IT Services
@@ -85,6 +85,8 @@ add_action('carbon_fields_register_fields', function () {
     $to_register = [
         '\\WPbuilder\\models\\OptionCookie',
         '\\WPbuilder\\models\\OptionSite',
+        '\\WPbuilder\\models\\Page',
+        '\\WPbuilder\\models\\Post',
     ];
 
     foreach ($to_register as $class) {

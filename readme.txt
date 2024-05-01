@@ -24,6 +24,10 @@ Le theme compatible avec le plugin est [wpbuilder-boilerplate](https://github.co
 == Changelog ==
 
 = 1.0.4 =
+- Allow carbon fields to be used in page and post
+- New Gallery function to get images from a gallery
+
+= 1.0.4 =
 - Login form update style
 - Fix missing title tab
 

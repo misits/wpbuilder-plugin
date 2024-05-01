@@ -6,6 +6,8 @@ defined('ABSPATH') or exit;
 
 use WPbuilder\models\CustomPostType;
 
+use WPbuilder\models\Media;
+
 use \Carbon_Fields\Container;
 use \Carbon_Fields\Field;
 
@@ -80,6 +82,18 @@ class Gallery extends CustomPostType implements \JsonSerializable
           ->set_header_template('<%- title %>')
           ->set_collapsed(true),
       ));
+  }
+
+  public function images(callable $callback): void
+  {
+    $images = $this->crb('crb_gallery_images');
+    foreach ($images as $image) {
+      $callback(
+        new Media($image['crb_image']),
+        $image['crb_title'],
+        $image['crb_description']
+      );
+    }
   }
 
   public function jsonSerialize(): mixed
