@@ -643,27 +643,27 @@ class MainService
     {
 
         if (isset($_POST['submit'])) {
-            if (self::verify_nonce($_POST['site_domain_nonce'], 'site_domain_action')) {
+            if (isset($_POST['site_domain_nonce']) && self::verify_nonce($_POST['site_domain_nonce'], 'site_domain_action')) {
                 self::update_wp_option('site_domain', 'site_domain');
             }
 
-            if (self::verify_nonce($_POST['matomo_site_id_nonce'], 'matomo_site_id')) {
+            if (isset($_POST['matomo_site_id_nonce']) && self::verify_nonce($_POST['matomo_site_id_nonce'], 'matomo_site_id')) {
                 self::update_wp_option('matomo_site_id', 'matomo_site_id', 0);
             }
 
-            if (self::verify_nonce($_POST['matomo_api_token_nonce'], 'matomo_api_token_action')) {
+            if (isset($_POST['matomo_api_token_nonce']) && self::verify_nonce($_POST['matomo_api_token_nonce'], 'matomo_api_token_action')) {
                 self::update_wp_option('matomo_api_token', 'matomo_api_token');
             }
 
-            if (self::verify_nonce($_POST['max_upload_size_nonce'], 'max_upload_size_action')) {
+            if (isset($_POST['max_upload_size_nonce']) && self::verify_nonce($_POST['max_upload_size_nonce'], 'max_upload_size_action')) {
                 self::update_wp_option('upload_size_limit', 'upload_size_limit', 5242880);
             }
 
-            if (self::verify_nonce($_POST['remove_woocommcerce_styles_nonce'], 'remove_woocommcerce_styles_action')) {
+            if (isset($_POST['remove_woocommcerce_styles_nonce']) && self::verify_nonce($_POST['remove_woocommcerce_styles_nonce'], 'remove_woocommcerce_styles_action')) {
                 self::update_wp_option('remove_woocommcerce_styles', 'remove_woocommcerce_styles', 0);
             }
 
-            if (self::verify_nonce($_POST['matomo_url_nonce'], 'matomo_url_action')) {
+            if (isset($_POST['matomo_url_nonce']) && self::verify_nonce($_POST['matomo_url_nonce'], 'matomo_url_action')) {
                 self::update_wp_option('matomo_url', 'matomo_url', 'htts://matomo.example.com');
             }
         }
