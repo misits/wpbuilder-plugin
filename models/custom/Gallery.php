@@ -79,7 +79,7 @@ class Gallery extends CustomPostType implements \JsonSerializable
             Field::make('textarea', 'crb_description', __('Description', 'wpbuilder')),
           ))
           ->set_layout('tabbed-vertical')
-          ->set_header_template('<%- title %>')
+          ->set_header_template('<%- crb_title %>')
           ->set_collapsed(true),
       ));
   }
