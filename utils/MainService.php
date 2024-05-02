@@ -24,6 +24,8 @@ class MainService
         self::maintenance_mode();
         self::hide_wp_version();
         self::login_head();
+        add_action('wp_dashboard_setup', [self::class, 'remove_dashboard_widgets']);
+        self::customize_admin();
     }
 
     public static function maintenance_mode()
@@ -158,6 +160,10 @@ class MainService
             register_setting('wordpress-wpbuilder-plugin', 'upload_size_limit', 'intval');
             register_setting('wordpress-wpbuilder-plugin', 'remove_woocommcerce_styles');
             register_setting('wordpress-wpbuilder-plugin', 'site_domain');
+            register_setting('wordpress-wpbuilder-plugin', 'maintenance_mode');
+            register_setting('wordpress-wpbuilder-plugin', 'matomo_site_id', 'intval');
+            register_setting('wordpress-wpbuilder-plugin', 'matomo_api_token');
+            register_setting('wordpress-wpbuilder-plugin', 'matomo_url');
         });
         add_action('admin_menu', function () {
             add_menu_page(
@@ -400,6 +406,30 @@ class MainService
         }
     }
 
+      /**
+     * Remove unwanted dashboard widgets.
+     */
+    public static function remove_dashboard_widgets() {
+        remove_meta_box('dashboard_incoming_links', 'dashboard', 'normal');
+        remove_meta_box('dashboard_plugins', 'dashboard', 'normal');
+        remove_meta_box('dashboard_primary', 'dashboard', 'side');
+        remove_meta_box('dashboard_secondary', 'dashboard', 'normal');
+        remove_meta_box('dashboard_quick_press', 'dashboard', 'side');
+        remove_meta_box('dashboard_recent_drafts', 'dashboard', 'side');
+        remove_meta_box('dashboard_recent_comments', 'dashboard', 'normal');
+        remove_meta_box('dashboard_right_now', 'dashboard', 'normal');
+        remove_meta_box('dashboard_activity', 'dashboard', 'normal'); // since WP 3.8
+    }
+
+    /**
+     * Customize additional admin area parts.
+     */
+    public static function customize_admin() {
+        add_action('admin_bar_menu', function ($wp_admin_bar) {
+            $wp_admin_bar->remove_node('wp-logo');
+        }, 999);
+    }
+
     public static function login_head()
     {
         add_action('login_head', function () {
@@ -598,36 +628,43 @@ class MainService
     <?php
     }
 
+    public static function verify_nonce($nonce, $action) {
+        if (isset($nonce) || wp_verify_nonce($nonce, $action)) {
+            return true;
+        }
+    }
+    
+    public static function update_wp_option($option_name, $post_field, $default_value = '') {
+        $value = isset($_POST[$post_field]) ? $_POST[$post_field] : $default_value;
+        update_option($option_name, $value);
+    }
+
     public static function display_wpbuilder_page()
     {
 
         if (isset($_POST['submit'])) {
-            if (isset($_POST['maintenance_mode_nonce']) && !wp_verify_nonce($_POST['maintenance_mode_nonce'], 'maintenance_mode_action')) {
-                print _e('Sorry, your nonce did not verify.');
-                exit;
-            } else {
-                update_option('maintenance_mode', isset($_POST['maintenance_mode']) ? 1 : 0);
+            if (self::verify_nonce($_POST['site_domain_nonce'], 'site_domain_action')) {
+                self::update_wp_option('site_domain', 'site_domain');
             }
 
-            if (isset($_POST['site_domain_nonce']) && !wp_verify_nonce($_POST['site_domain_nonce'], 'site_domain_action')) {
-                print _e('Sorry, your nonce did not verify.');
-                exit;
-            } else {
-                update_option('site_domain', isset($_POST['site_domain']) ? $_POST['site_domain'] : 'wpbuilder');
+            if (self::verify_nonce($_POST['matomo_site_id_nonce'], 'matomo_site_id')) {
+                self::update_wp_option('matomo_site_id', 'matomo_site_id', 0);
             }
 
-            if (isset($_POST['max_upload_size_nonce']) && !wp_verify_nonce($_POST['max_upload_size_nonce'], 'max_upload_size_action')) {
-                print _e('Sorry, your nonce did not verify.');
-                exit;
-            } else {
-                update_option('upload_size_limit', isset($_POST['upload_size_limit']) ? intval($_POST['upload_size_limit']) : 5242880);
+            if (self::verify_nonce($_POST['matomo_api_token_nonce'], 'matomo_api_token_action')) {
+                self::update_wp_option('matomo_api_token', 'matomo_api_token');
             }
 
-            if (isset($_POST['remove_woocommcerce_styles_nonce']) && !wp_verify_nonce($_POST['remove_woocommcerce_styles_nonce'], 'remove_woocommcerce_styles_action')) {
-                print _e('Sorry, your nonce did not verify.');
-                exit;
-            } else {
-                update_option('remove_woocommcerce_styles', isset($_POST['remove_woocommcerce_styles']) ? 1 : 0);
+            if (self::verify_nonce($_POST['max_upload_size_nonce'], 'max_upload_size_action')) {
+                self::update_wp_option('upload_size_limit', 'upload_size_limit', 5242880);
+            }
+
+            if (self::verify_nonce($_POST['remove_woocommcerce_styles_nonce'], 'remove_woocommcerce_styles_action')) {
+                self::update_wp_option('remove_woocommcerce_styles', 'remove_woocommcerce_styles', 0);
+            }
+
+            if (self::verify_nonce($_POST['matomo_url_nonce'], 'matomo_url_action')) {
+                self::update_wp_option('matomo_url', 'matomo_url', 'htts://matomo.example.com');
             }
         }
 
@@ -678,6 +715,58 @@ class MainService
                             <label for="site_domain">
                                 <?php _e('Set the site domain', 'wpbuilder'); ?>
                                 <input type="text" name="site_domain" id="site_domain" value="<?php echo get_option('site_domain', 'wpbuilder'); ?>">
+                            </label>
+                        </p>
+                        <p class="submit">
+                            <input type="submit" name="submit" class="button-primary" value="Save Changes">
+                        </p>
+                    </form>
+                    <hr />
+                </div>
+
+                <!-- Matomo site id -->
+                <div class="settings matomo-site-id">
+                    <h2><?php _e('Matomo site id', 'wpbuilder'); ?></h2>
+                    <form method="post">
+                        <?php wp_nonce_field('matomo_site_id', 'matomo_site_id_nonce'); ?>
+                        <p>
+                            <label for="matomo_site_id">
+                                <?php _e('Set the Matomo site id', 'wpbuilder'); ?>:
+                                <input type="number" name="matomo_site_id" id="matomo_site_id" value="<?php echo get_option('matomo_site_id', 0); ?>">
+                            </label>
+                        </p>
+                        <p class="submit">
+                            <input type="submit" name="submit" class="button-primary" value="Save Changes">
+                        </p>
+                    </form>
+                </div>
+
+                <!-- Matomo api token -->
+                <div class="settings matomo-api-token">
+                    <h2><?php _e('Matomo API token', 'wpbuilder'); ?></h2>
+                    <form method="post">
+                        <?php wp_nonce_field('matomo_api_token_action', 'matomo_api_token_nonce'); ?>
+                        <p>
+                            <label for="matomo_api_token">
+                                <?php _e('Set the Matomo API token', 'wpbuilder'); ?>:
+                                <input type="password" name="matomo_api_token" id="matomo_api_token" value="<?php echo get_option('matomo_api_token', ''); ?>">
+                            </label>
+                        </p>
+                        <p class="submit">
+                            <input type="submit" name="submit" class="button-primary" value="Save Changes">
+                        </p>
+                    </form>
+                </div>
+
+                <!-- Matomo url -->
+                <div class="settings matomo-url">
+                    <h2><?php _e('Matomo URL', 'wpbuilder'); ?></h2>
+                    <form method="post">
+                        <?php wp_nonce_field('matomo_url_action', 'matomo_url_nonce'); ?>
+                        <p>
+                            <label for="matomo_url">
+                                <?php _e('Set the Matomo URL', 'wpbuilder'); ?>:
+                                <input type="text" name="matomo_url" id="matomo_url" value="<?php echo get_option('matomo_url', 'https://matomo.misits.ch/'); ?>">
                             </label>
                         </p>
                         <p class="submit">

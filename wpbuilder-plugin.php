@@ -4,7 +4,7 @@
  * Plugin Name: WPbuilder
  * Description: WPbuilder Theme Plugin
  * Plugin URI: https://github.com/misits/wpbuilder-plugin
- * Version: 1.0.7
+ * Version: 1.1.0
  * Requires at least: 5.2
  * Requires PHP: 8.0
  * Author: Martin IS IT Services
@@ -175,3 +175,8 @@ add_action('after_setup_theme', function () {
 
 
 add_filter('carbon_fields_theme_options_container_admin_only_access', '__return_false');
+
+add_action('widgets_init', function () {
+    register_widget('WPbuilder\widgets\SysInfo');
+    register_widget('WPbuilder\widgets\Matomo');
+});
