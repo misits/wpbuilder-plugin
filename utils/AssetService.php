@@ -18,19 +18,71 @@ class AssetService
         add_action("wp_enqueue_scripts", function () {
             wp_enqueue_style(
                 'wpbuilder-cookie-banner-style',
-                WPBUILDER_URL . 'admin/assets/css/cookie-banner.css',
+                WPBUILDER_URL . 'admin/assets/css/cookie-banner.min.css',
                 [],
             );
         });
         add_action("admin_enqueue_scripts", function () {
+
             wp_enqueue_style(
-                "wpbuilder-admin-css",
-                WPBUILDER_URL . "admin/assets/css/admin.css",
+                'wpbuilder-material-symbols-style',
+                'https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined',
+                [],
+            );
+
+            wp_enqueue_style(
+                'wpbuilder-icons-style',
+                WPBUILDER_URL . 'admin/assets/css/icons.min.css',
                 [],
             );
             wp_enqueue_style(
-                'wpbuilder-icomoon-style',
-                WPBUILDER_URL . 'admin/assets/css/icomoon.css',
+                "wpbuilder-admin-css",
+                WPBUILDER_URL . "admin/assets/css/admin.min.css",
+                [],
+            );
+            wp_enqueue_style(
+                'wpbuilder-variables-style',
+                WPBUILDER_URL . 'admin/assets/css/variables.min.css',
+                [],
+            );
+            wp_enqueue_style(
+                'wpbuilder-admin-bar-style',
+                WPBUILDER_URL . 'admin/assets/css/admin-bar.min.css',
+                [],
+            );
+            wp_enqueue_style(
+                'wpbuilder-admin-menu-style',
+                WPBUILDER_URL . 'admin/assets/css/admin-menu.min.css',
+                [],
+            );
+            wp_enqueue_style(
+                'wpbuilder-common-style',
+                WPBUILDER_URL . 'admin/assets/css/common.min.css',
+                [],
+            );
+            wp_enqueue_style(
+                "wpbuilder-buttons-css",
+                WPBUILDER_URL . "admin/assets/css/buttons.min.css",
+                [],
+            );
+            wp_enqueue_style(
+                "wpbuilder-forms-css",
+                WPBUILDER_URL . "admin/assets/css/forms.min.css",
+                [],
+            );
+            wp_enqueue_style(
+                "wpbuilder-media-css",
+                WPBUILDER_URL . "admin/assets/css/media.min.css",
+                [],
+            );
+            wp_enqueue_style(
+                "wpbuilder-themes-css",
+                WPBUILDER_URL . "admin/assets/css/themes.min.css",
+                [],
+            );
+            wp_enqueue_style(
+                "wpbuilder-editor-css",
+                WPBUILDER_URL . "admin/assets/css/editor.min.css",
                 [],
             );
         });

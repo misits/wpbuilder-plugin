@@ -4,7 +4,7 @@
  * Plugin Name: WPbuilder
  * Description: WPbuilder Theme Plugin
  * Plugin URI: https://github.com/misits/wpbuilder-plugin
- * Version: 1.1.1
+ * Version: 1.2.0
  * Requires at least: 5.2
  * Requires PHP: 8.0
  * Author: Martin IS IT Services
@@ -70,11 +70,16 @@ $to_register = [
     '\\WPbuilder\\utils\\RegisterService',
     '\\WPbuilder\\utils\\WooService',
     '\\WPbuilder\\utils\\MenuService',
+    '\\WPbuilder\\utils\\NotificationService',
 ];
 
 add_action('init', function () use ($to_register) {
     foreach ($to_register as $class) {
-        $class::register();
+        // Check if the class exists
+        if (class_exists($class)) {
+            // Register the class
+            $class::register();
+        }
     }
 });
 
@@ -90,9 +95,12 @@ add_action('carbon_fields_register_fields', function () {
     ];
 
     foreach ($to_register as $class) {
-        // Register the class
-        if (method_exists($class, 'fields')) {
-            $class::fields();
+        // Class exists
+        if (class_exists($class)) {
+            // Register the class
+            if (method_exists($class, 'fields')) {
+                $class::fields();
+            }
         }
     }
 
@@ -124,8 +132,10 @@ add_action('carbon_fields_register_fields', function () {
     foreach ($custom_blocks as $block) {
         $class = "\\WPbuilder\\models\\custom\\" . basename($block, ".php");
         // Register the class
-        if (method_exists($class, 'fields')) {
-            $class::fields();
+        if (class_exists($class)) {
+            if (method_exists($class, 'fields')) {
+                $class::fields();
+            }
         }
     }
 
@@ -161,8 +171,10 @@ add_action('carbon_fields_register_fields', function () {
     foreach ($enabled_custom_models as $model) {
         $class = "\\WPbuilder\\models\\custom\\" . basename($model, ".php");
         // Check if the class has a register method and call it.
-        if (method_exists($class, 'fields')) {
-            $class::fields();
+        if (class_exists($class)) {
+            if (method_exists($class, 'fields')) {
+                $class::fields();
+            }
         }
     }
 });

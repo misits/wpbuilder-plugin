@@ -5,8 +5,6 @@ namespace WPbuilder\utils;
 // Prevent direct access.
 defined('ABSPATH') or exit;
 
-use WPbuilder\utils\RegisterService;
-
 class ModelService
 {
 
@@ -87,7 +85,7 @@ class ModelService
 
             <?php
             // Enqueue scripts
-            wp_enqueue_script('wpbuilder-ajax-scripts', WPBUILDER_URL . '/admin/assets/js/admin-ajax.js', array('jquery'), null, true);
+            wp_enqueue_script('wpbuilder-ajax-scripts', WPBUILDER_URL . '/admin/assets/js/admin-ajax.min.js', array('jquery'), null, true);
 
             wp_localize_script('wpbuilder-ajax-scripts', 'cptwp_admin_vars', array(
                 'ajax_url' => admin_url('admin-ajax.php'),

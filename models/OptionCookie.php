@@ -17,7 +17,7 @@ class OptionCookie extends OptionPage
         'menu_title' => 'Cookie Policy',
         'redirect' => false,
         'position' => 2,
-        'menu_icon' => 'dashicons-icon-security',
+        'menu_icon' => 'dashicons-icon-cookie',
     ];
 
     public static function settings()

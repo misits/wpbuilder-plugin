@@ -24,7 +24,7 @@ class MainService
         self::maintenance_mode();
         self::hide_wp_version();
         self::login_head();
-        add_action('wp_dashboard_setup', [self::class, 'remove_dashboard_widgets']);
+        add_action('wp_dashboard_setup', [self::class, 'remove_dashboard_widgets'], 9999);
         self::customize_admin();
     }
 
@@ -410,15 +410,26 @@ class MainService
      * Remove unwanted dashboard widgets.
      */
     public static function remove_dashboard_widgets() {
-        remove_meta_box('dashboard_incoming_links', 'dashboard', 'normal');
-        remove_meta_box('dashboard_plugins', 'dashboard', 'normal');
-        remove_meta_box('dashboard_primary', 'dashboard', 'side');
-        remove_meta_box('dashboard_secondary', 'dashboard', 'normal');
-        remove_meta_box('dashboard_quick_press', 'dashboard', 'side');
-        remove_meta_box('dashboard_recent_drafts', 'dashboard', 'side');
-        remove_meta_box('dashboard_recent_comments', 'dashboard', 'normal');
-        remove_meta_box('dashboard_right_now', 'dashboard', 'normal');
-        remove_meta_box('dashboard_activity', 'dashboard', 'normal'); // since WP 3.8
+        $allowed_widgets = [
+            'matomo_country_stats',
+            'matomo_browser_stats',
+            'matomo_visits_summary',
+            'matomo_realtime_visitor_count',
+            'matomo_total_visits',
+            'system_info_dashboard_widget'
+        ];
+
+        // Remove all default dashboard not $allowed_widgets
+        global $wp_meta_boxes;
+        foreach ($wp_meta_boxes['dashboard'] as $key => $value) {
+            foreach ($value as $key2 => $value2) {
+                foreach ($value2 as $key3 => $value3) {
+                    if (!in_array($key3, $allowed_widgets)) {
+                        unset($wp_meta_boxes['dashboard'][$key][$key2][$key3]);
+                    }
+                }
+            }
+        }
     }
 
     /**

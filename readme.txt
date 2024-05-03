@@ -23,6 +23,9 @@ Le theme compatible avec le plugin est [wpbuilder-boilerplate](https://github.co
 
 == Changelog ==
 
+= 1.2.0 =
+- Custom admin theme
+
 = 1.1.1 =
 - Matomo widget fix wp option nonce
 

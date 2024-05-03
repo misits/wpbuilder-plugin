@@ -26,10 +26,8 @@ class Matomo extends \WP_Widget
     }
 
     public static function enqueue_matomo_scripts() {
-        wp_enqueue_style('leaflet-css', 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css', [], '1.7.1');
-        wp_enqueue_script('leaflet-js', 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js', [], '1.7.1', true);
         wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js', [], '3.7.1', true);
-        wp_enqueue_script('matomo-widget-script', WPBUILDER_URL . 'admin/assets/js/matomo-chart.js', ['chartjs'], null, true);
+        wp_enqueue_script('matomo-widget-script', WPBUILDER_URL . 'admin/assets/js/matomo-chart.min.js', ['chartjs'], null, true);
     }
 
     public function add_matomo_dashboard_widgets() {
@@ -105,6 +103,10 @@ class Matomo extends \WP_Widget
         $idSite = get_option('matomo_site_id', 0);
         $token_auth = get_option('matomo_api_token', '');
         $commonParams = "idSite=$idSite&period=month&date=today&format=JSON&filter_limit=10&token_auth=$token_auth";
+
+        if (empty($baseUrl) || empty($idSite) || empty($token_auth)) {
+            return [];
+        }
 
         $url = $baseUrl . '?' . "module=API&method=$method&" . $commonParams;
         $response = file_get_contents($url);

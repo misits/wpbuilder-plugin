@@ -66,48 +66,6 @@
     border-radius: 4px;
 }
 
-/* Custom checkbox styling */
-.wpbuilder-models .model input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-    background-color: #f0f0f0;
-    margin: 0;
-    font: inherit;
-    color: currentColor;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #ccc;
-    border-radius: 100%;
-    transform: translateY(-0.075em);
-    display: grid;
-    place-content: center;
-}
-
-.wpbuilder-models .model input[type="checkbox"]:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px #f0f0f0;
-}
-
-
-/* Checkbox checked state styling */
-.wpbuilder-models .model input[type="checkbox"]:checked {
-    background-color: rgba(34, 113, 177, .7);
-    border-color: #2271b1;
-}
-
-/* Checked state icon - using a pseudo-element for the checkmark */
-.wpbuilder-models .model input[type="checkbox"]:checked::before {
-    content: ""; 
-    color: white; 
-    font-size: 16px; 
-    line-height: 1; 
-    display: block; 
-    text-align: center; 
-    margin: 0 auto;
-    height: 20px;
-    width: 20px;
-}
-
 /* Dashicon and text styling */
 .wpbuilder-models .model .wp-menu-image {
     line-height: 1; 

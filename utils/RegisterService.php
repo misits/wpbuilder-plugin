@@ -21,7 +21,7 @@ class RegisterService
     public static function register()
     {
         add_action('admin_enqueue_scripts', function () {
-            wp_enqueue_script('wpbuilder-admin-scripts', WPBUILDER_URL . '/admin/assets/js/admin-scripts.js', array('jquery'), null, true);
+            wp_enqueue_script('wpbuilder-admin-scripts', WPBUILDER_URL . '/admin/assets/js/admin-scripts.min.js', array('jquery'), null, true);
         });
         // Register AJAX actions.
         add_action("wp_ajax_create_cpt_models", [self::class, "create_model_action"]);

@@ -34,9 +34,12 @@ class SysInfo extends \WP_Widget
         echo '<ul>';
         echo '<li><strong>WordPress Version:</strong> ' . get_bloginfo('version') . '</li>';
         echo '<li><strong>PHP Version:</strong> ' . phpversion() . '</li>';
+        echo '<li><strong>PHP Execution Limit:</strong> ' . ini_get('max_execution_time') . ' seconds</li>';
         echo '<li><strong>MySQL Version:</strong> ' . $wpdb->db_version() . '</li>';
         echo '<li><strong>Server Software:</strong> ' . $_SERVER['SERVER_SOFTWARE'] . '</li>';
         echo '<li><strong>Your IP:</strong> ' . $_SERVER['REMOTE_ADDR'] . '</li>';
+        echo '<li><strong>Memory Usage:</strong> ' . size_format(memory_get_usage(true)) . '</li>';
+        echo '<li><strong>Maximum Allowed Memory:</strong> ' . ini_get('memory_limit') . '</li>';
         echo '</ul>';
         echo '</div>';
     }
