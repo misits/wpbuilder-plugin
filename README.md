@@ -37,4 +37,3 @@ To update the plugin, change the version in `readme.txt` and `wpbuilder-plugin.p
 - [ ] More default CPTs
 - [ ] More default blocks
 - [ ] Default layouts to fasten the development process
-- [ ] 
