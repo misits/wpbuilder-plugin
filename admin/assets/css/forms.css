@@ -136,12 +136,12 @@ input[type="radio"] {
 }
 
 input[type="radio"]:checked + label:before {
-	color: #8c8f94;
+	color:  var(--wpbuilder-text-dark);
 }
 
 .wp-core-ui input[type="reset"]:hover,
 .wp-core-ui input[type="reset"]:active {
-	color: #135e96;
+	color:  var(--wpbuilder-primary);
 }
 
 td > input[type="checkbox"],
@@ -226,16 +226,16 @@ textarea[readonly] {
 }
 
 ::-webkit-input-placeholder {
-	color: #646970;
+	color:  var(--wpbuilder-text-dark);
 }
 
 ::-moz-placeholder {
-	color: #646970;
+	color:  var(--wpbuilder-text-dark);
 	opacity: 1;
 }
 
 :-ms-input-placeholder {
-	color: #646970;
+	color:  var(--wpbuilder-text-dark);
 }
 
 .form-invalid .form-required,
@@ -244,14 +244,14 @@ textarea[readonly] {
 .form-invalid.form-required input:focus,
 .form-invalid.form-required select,
 .form-invalid.form-required select:focus {
-	border-color: #d63638 !important;
-	box-shadow: 0 0 2px rgba(214, 54, 56, 0.8);
+	border-color: var(--wpbuilder-danger) !important;
+	box-shadow: 0 0 2px var(--wpbuilder-danger);
 }
 
 .form-table .form-required.form-invalid td:after {
 	content: "\f534";
 	font: normal 20px/1 dashicons;
-	color: #d63638;
+	color:  var(--wpbuilder-danger);
 	margin-left: -25px;
 	vertical-align: middle;
 }
@@ -264,13 +264,13 @@ textarea[readonly] {
 .form-table .form-required.user-pass1-wrap.form-invalid .password-input-wrapper:after {
 	content: "\f534";
 	font: normal 20px/1 dashicons;
-	color: #d63638;
+	color:  var(--wpbuilder-danger);
 	margin: 0 6px 0 -29px;
 	vertical-align: middle;
 }
 
 .form-input-tip {
-	color: #646970;
+	color:  var(--wpbuilder-text-dark);
 }
 
 input:disabled,
@@ -346,7 +346,7 @@ input[type="radio"].disabled:checked:before {
 }
 
 .wp-core-ui select:active {
-	border-color: #8c8f94;
+	border-color:  var(--wpbuilder-text-dark);
 	box-shadow: none;
 }
 
@@ -371,7 +371,7 @@ input[type="radio"].disabled:checked:before {
 /* This ruleset overrides the color change on :focus thus needs to be after select:focus. */
 .wp-core-ui select:-moz-focusring {
 	color: transparent;
-	text-shadow: 0 0 0 #0a4b78;
+	text-shadow: 0 0 0 var(--wpbuilder-primary);
 }
 
 /* Remove background focus style from IE11 while keeping focus style available on option elements. */
@@ -381,11 +381,11 @@ input[type="radio"].disabled:checked:before {
 }
 
 .wp-core-ui select:hover::-ms-value {
-	color: #2271b1;
+	color: var(--wpbuilder-primary);
 }
 
 .wp-core-ui select:focus::-ms-value {
-	color: #0a4b78;
+	color: var(--wpbuilder-primary);
 }
 
 .wp-core-ui select.disabled::-ms-value,
@@ -608,9 +608,9 @@ fieldset label,
 
 .mailserver-pass-wrap .button.wp-hide-pw:focus {
 	background: transparent;
-	border-color: #3582c4;
+	border-color: var(--wpbuilder-primary);
 	border-radius: 4px;
-	box-shadow: 0 0 0 1px #3582c4;
+	box-shadow: 0 0 0 1px var(--wpbuilder-primary);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -687,7 +687,7 @@ fieldset label,
 
 #pass1:focus,
 #pass1-text:focus {
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 2px var(--wpbuilder-primary);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -768,8 +768,8 @@ ul#add-to-blog-users {
 	list-style: none;
 	position: absolute;
 	z-index: 10000;
-	border: 1px solid #4f94d4;
-	box-shadow: 0 1px 2px rgba(79, 148, 212, 0.8);
+	border: 1px solid var(--wpbuilder-primary);
+	box-shadow: 0 1px 2px var(--wpbuilder-primary);
 	background-color: #fff;
 }
 
@@ -789,7 +789,7 @@ ul#add-to-blog-users {
 /* Colors for the tags autocomplete. */
 .wp-tags-autocomplete .ui-state-focus,
 .wp-tags-autocomplete [aria-selected="true"] {
-	background-color: #2271b1;
+	background-color: var(--wpbuilder-primary);
 	color: #fff;
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
@@ -825,9 +825,9 @@ ul#add-to-blog-users {
 
 .button-add-site-icon:focus {
 	background-color: #fff;
-	border-color: #3582c4;
+	border-color: var(--wpbuilder-primary);
 	border-style: solid;
-	box-shadow: 0 0 0 1px #3582c4;
+	box-shadow: 0 0 0 1px var(--wpbuilder-primary);
 	outline: 2px solid transparent;
 }
 
@@ -1371,7 +1371,7 @@ table.form-table td .updated p {
 }
 
 .request-filesystem-credentials-dialog .ftp-password em {
-	color: #8c8f94;
+	color:  var(--wpbuilder-text-dark);
 }
 
 .request-filesystem-credentials-dialog label {
@@ -1476,13 +1476,13 @@ table.form-table td .updated p {
 .privacy_requests .status-request-confirmed th,
 .privacy_requests .status-request-confirmed td {
 	background-color: #fff;
-	border-left-color: #72aee6;
+	border-left-color: var(--wpbuilder-primary);
 }
 
 .privacy_requests .status-request-failed th,
 .privacy_requests .status-request-failed td {
 	background-color: #f6f7f7;
-	border-left-color: #d63638;
+	border-left-color:  var(--wpbuilder-danger);
 }
 
 .privacy_requests .export_personal_data_failed a {
@@ -1496,11 +1496,11 @@ table.form-table td .updated p {
 .status-label.status-request-pending {
 	font-weight: 400;
 	font-style: italic;
-	color: #646970;
+	color:  var(--wpbuilder-text-dark);
 }
 
 .status-label.status-request-failed {
-	color: #d63638;
+	color:  var(--wpbuilder-danger);
 	font-weight: 600;
 }
 
@@ -1527,7 +1527,7 @@ table.form-table td .updated p {
 }
 
 .email-personal-data--sending::before {
-	color: #d63638;
+	color:  var(--wpbuilder-danger);
 	content: "\f463";
 	animation: rotation 2s infinite linear;
 }

@@ -23,6 +23,9 @@ Le theme compatible avec le plugin est [wpbuilder-boilerplate](https://github.co
 
 == Changelog ==
 
+= 1.2.1 =
+- Add admin panel style
+
 = 1.2.0 =
 - Custom admin theme
 

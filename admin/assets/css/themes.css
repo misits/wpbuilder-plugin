@@ -179,12 +179,12 @@ body.js .theme-browser.search-loading {
 }
 
 .theme-browser .theme .more-details:focus {
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 2px var(--wpbuilder-primary);
 }
 
 .theme-browser .theme.focus {
-	border-color: #2271b1;
-	box-shadow: 0 0 0 1px #2271b1;
+	border-color: var(--wpbuilder-primary);
+	box-shadow: 0 0 0 1px var(--wpbuilder-primary);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -333,14 +333,14 @@ body.js .theme-browser.search-loading {
 .theme-browser .theme.add-new-theme a:hover span:after,
 .theme-browser .theme.add-new-theme a:focus span:after {
 	background: #fff;
-	color: #2271b1;
+	color: var(--wpbuilder-primary);
 }
 
 .theme-browser .theme.add-new-theme a:hover:after,
 .theme-browser .theme.add-new-theme a:focus:after {
 	border-color: transparent;
 	color: #fff;
-	background: #2271b1;
+	background: var(--wpbuilder-primary);
 	content: "";
 }
 
@@ -530,7 +530,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 
 .broken-themes a.delete-theme,
 .theme-overlay .theme-actions .delete-theme {
-	color: #b32d2e;
+	color: var(--wpbuilder-danger);
 	text-decoration: none;
 	border-color: transparent;
 	box-shadow: none;
@@ -541,10 +541,10 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 .broken-themes a.delete-theme:focus,
 .theme-overlay .theme-actions .delete-theme:hover,
 .theme-overlay .theme-actions .delete-theme:focus {
-	background: #b32d2e;
+	background: var(--wpbuilder-danger);
 	color: #fff;
-	border-color: #b32d2e;
-	box-shadow: 0 0 0 1px #b32d2e;
+	border-color: var(--wpbuilder-danger);
+	box-shadow: 0 0 0 1px var(--wpbuilder-danger);
 }
 
 .theme-overlay .theme-actions .active-theme,
@@ -1015,7 +1015,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 
 /* Already installed theme */
 .theme-browser .theme .theme-installed {
-	background: #2271b1;
+	background: var(--wpbuilder-primary);
 }
 
 .theme-browser .theme .notice-success p:before {
@@ -1576,7 +1576,7 @@ body.full-overlay-active {
 
 .wp-core-ui .wp-full-overlay .collapse-sidebar:hover,
 .wp-core-ui .wp-full-overlay .collapse-sidebar:focus {
-	color: #2271b1;
+	color: var(--wpbuilder-primary);
 }
 
 .wp-full-overlay .collapse-sidebar-arrow,
@@ -1596,7 +1596,7 @@ body.full-overlay-active {
 
 .wp-full-overlay .collapse-sidebar:hover .collapse-sidebar-arrow,
 .wp-full-overlay .collapse-sidebar:focus .collapse-sidebar-arrow {
-	box-shadow: 0 0 0 2px #2271b1;
+	box-shadow: 0 0 0 2px var(--wpbuilder-primary);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -1718,7 +1718,7 @@ body.full-overlay-active {
 
 .wp-full-overlay-footer .devices button:focus,
 .wp-full-overlay-footer .devices button.active:hover {
-	border-bottom-color: #2271b1;
+	border-bottom-color: var(--wpbuilder-primary);
 }
 
 .wp-full-overlay-footer .devices button.active:before {
@@ -1727,7 +1727,7 @@ body.full-overlay-active {
 
 .wp-full-overlay-footer .devices button:hover:before,
 .wp-full-overlay-footer .devices button:focus:before {
-	color: #2271b1;
+	color: var(--wpbuilder-primary);
 }
 
 .wp-full-overlay-footer .devices .preview-desktop:before {

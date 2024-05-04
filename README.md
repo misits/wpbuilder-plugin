@@ -1,36 +1,40 @@
 # WPbuilder Plugin
 
-## Responsables du projet
+## Project Leaders
 
 Martin IS IT Services
 <hello@misits.ch>
 
 ## Description
 
-Ce plugin permet de charger les fonctionnalités de base du thème.
+This plugin allows for loading the basic features of the theme and add a custom wp-admin theme to the WordPress admin panel. The plugin is designed to work with the [WPbuilder Boilerplate](https://github.com/misits/wpbuilder-boilerplate) wich is private and not available to the public, but you can implement your own theme support based on the plugin.
 
-- Activation du mode maintenance
-- Creation de custom post type (CPT) et activation/désactivation de ceux-ci
-- Creation de custom block (Gutenberg)
-- Gestion des menus wordpress
+- Activation of maintenance mode
+- Creation of custom post types (CPT) and enabling/disabling them
+- Creation of custom blocks (Gutenberg)
+- Management of WordPress menus
 
-## Documentation technique
+## Technical Documentation
 
-### Prérequis WordPress
+### WordPress Requirements
 
-Requires at least: 5.0
-Requires PHP: 8.0
+- Requires at least: 6.0
+- Requires PHP: 8.0
+- Theme: [WPbuilder Boilerplate](https://github.com/misits/wpbuilder-boilerplate) or implement your own theme support
 
 ### Installation
 
-Télécharger le plugin [wpbuilder-plugin](https://github.com/misits/wpbuilder-plugin) en tant que zip et l'installer via l'administration de Wordpress.
+Download the [wpbuilder-plugin](https://github.com/misits/wpbuilder-plugin) as a zip file and install it via the WordPress admin panel.
 
-## Mise à jour
+## Updates
 
-Le plugin integere un système de mise à jour basé sur [plugin-update-checker](https://github.com/YahnisElsts/plugin-update-checker) et est lié au dépôt git du plugin sur [wpbuilder-plugin](https://github.com/misits/wpbuilder-plugin).
+The plugin integrates an update system based on [plugin-update-checker](https://github.com/YahnisElsts/plugin-update-checker) and is linked to the plugin's git repository at [wpbuilder-plugin](https://github.com/misits/wpbuilder-plugin).
 
-Pour mettre à jour le plugin, il faut changer la version `readme.txt` et `wpbuilder-plugin.php` et pousser les changements sur le dépôt git. Le plugin detectera automatiquement les mis à jour sur les sites utilisant le plugin et proposera la mise à jour.
+To update the plugin, change the version in `readme.txt` and `wpbuilder-plugin.php` and push the changes to the git repository. The plugin will automatically detect updates on sites using the plugin and will offer the update.
 
 ## TODO
 
-- [ ] Plus de CPT par défaut (ex: FAQ, Team, ...)
+- [ ] More default CPTs
+- [ ] More default blocks
+- [ ] Default layouts to fasten the development process
+- [ ] 

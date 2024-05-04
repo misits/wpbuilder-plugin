@@ -29,6 +29,16 @@
 	content: "\e871";
 }
 
+.dashicons-menu::before {
+	font-family: 'Material Symbols Outlined';
+	content: "\e5d2";
+  }
+
+.dashicons-dismiss::before {
+	font-family: 'Material Symbols Outlined';
+	content: "\e5c9";
+  }
+
 .dashicons-laptop::before {
 	font-family: 'Material Symbols Outlined';
 	content: "\e726";

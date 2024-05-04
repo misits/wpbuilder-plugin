@@ -2,6 +2,8 @@
 
 namespace WPbuilder\config;
 
+defined('ABSPATH') or exit;
+
 return [
     // Enable woocommerce support to wpbuilder
     "woocommerce_enabled" => false,

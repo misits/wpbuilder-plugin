@@ -488,6 +488,14 @@
     --wpbuilder-btn-outline-success: var(--wpbuilder-green-500);
 
     --wpbuilder-primary: var(--wpbuilder-slate-800);
+    
+    --wp-admin-theme-color: var(--wpbuilder-primary);
+    --wp-admin-theme-color-darker-10: var(--wpbuilder-gray-800);
+    --wp-admin-theme-color-darker-20: var(--wpbuilder-gray-700);
+    --tw-ring-color: var(--wpbuilder-primary);
+    --woocommerce-primary: var(--wpbuilder-primary);
+    --wc-primary: var(--wpbuilder-primary);
+
     --wpbuilder-primary-hover: var(--wpbuilder-gray-800);
     --wpbuilder-primary-active: var(--wpbuilder-slate-700);
     --wpbuilder-primary-focus: var(--wpbuilder-slate-800);

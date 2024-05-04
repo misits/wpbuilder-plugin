@@ -40,7 +40,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar a.ab-item,
 #wpadminbar > #wp-toolbar span.ab-label,
 #wpadminbar > #wp-toolbar span.noticon {
-	color: #f0f0f1;
+	color: var(--wpbuilder-text-light);
 }
 
 #wpadminbar #wp-admin-bar-site-name a.ab-item,
@@ -368,17 +368,17 @@ html:lang(he-il) .rtl #wpadminbar * {
 
 #wpadminbar .quicklinks .menupop ul.ab-sub-secondary,
 #wpadminbar .quicklinks .menupop ul.ab-sub-secondary .ab-submenu {
-	background: #3c434a;
+	background: var(--wpbuilder-background);
 }
 
 #wpadminbar .quicklinks .menupop .ab-sub-secondary > li > a:hover,
 #wpadminbar .quicklinks .menupop .ab-sub-secondary > li .ab-item:focus a {
-	color: #72aee6;
+	color: var(--wpbuilder-primary);
 }
 
 #wpadminbar .quicklinks a span#ab-updates {
-	background: #f0f0f1;
-	color: #2c3338;
+	background: var(--wpbuilder-background-light);
+	color: var(--wpbuilder-text-dark);
 	display: inline;
 	padding: 2px 5px;
 	font-size: 10px;
@@ -387,8 +387,8 @@ html:lang(he-il) .rtl #wpadminbar * {
 }
 
 #wpadminbar .quicklinks a:hover span#ab-updates {
-	background: #fff;
-	color: #000;
+	background: var(--wpbuilder-background-white);
+	color: var(--wpbuilder-text-dark);
 }
 
 #wpadminbar .ab-top-secondary {
@@ -405,16 +405,16 @@ html:lang(he-il) .rtl #wpadminbar * {
  * Recovery Mode
  */
 #wpadminbar #wp-admin-bar-recovery-mode {
-	color: #fff;
-	background-color: #d63638;
+	color: var(--wpbuilder-text-light);
+	background: var(--wpbuilder-danger);
 }
 
 #wpadminbar .ab-top-menu > #wp-admin-bar-recovery-mode.hover >.ab-item,
 #wpadminbar.nojq .quicklinks .ab-top-menu > #wp-admin-bar-recovery-mode > .ab-item:focus,
 #wpadminbar:not(.mobile) .ab-top-menu > #wp-admin-bar-recovery-mode:hover > .ab-item,
 #wpadminbar:not(.mobile) .ab-top-menu > #wp-admin-bar-recovery-mode > .ab-item:focus {
-	color: #fff;
-	background-color: #d63638;
+	color: var(--wpbuilder-text-light);
+	background: var(--wpbuilder-danger);
 }
 
 /**
@@ -491,7 +491,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 }
 
 #wpadminbar #wp-admin-bar-user-info .username {
-	color: #a7aaad;
+	color: var(--wpbuilder-text-dark);
 	font-size: 11px;
 }
 
@@ -500,8 +500,8 @@ html:lang(he-il) .rtl #wpadminbar * {
 	width: auto;
 	height: 16px;
 	padding: 0;
-	border: 1px solid #8c8f94;
-	background: #f0f0f1;
+	border: 1px solid var(--wpbuilder-border-color);
+	background: var(--wpbuilder-background-light);
 	line-height: 1.84615384;
 	vertical-align: middle;
 	margin: -4px 0 0 6px;
@@ -539,13 +539,13 @@ html:lang(he-il) .rtl #wpadminbar * {
 	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	color: #f0f0f1;
+	color: var(--wpbuilder-text-light);
 }
 
 #wpadminbar .quicklinks li a:hover .blavatar,
 #wpadminbar .quicklinks li a:focus .blavatar,
 #wpadminbar .quicklinks .ab-sub-wrapper .menupop.hover > a .blavatar {
-	color: #72aee6;
+	color: var(--wpbuilder-primary);
 }
 
 #wpadminbar .quicklinks li img.blavatar,
@@ -684,8 +684,8 @@ html:lang(he-il) .rtl #wpadminbar * {
 	max-width: none;
 	padding: 0 3px 0 24px;
 	margin: 0;
-	color: #c3c4c7;
-	background-color: rgba(255, 255, 255, 0);
+	color: var(--wpbuilder-text-dark);
+	background-color: var(--wpbuilder-background);
 	border: none;
 	outline: none;
 	cursor: pointer;
@@ -698,9 +698,9 @@ html:lang(he-il) .rtl #wpadminbar * {
 
 #wpadminbar > #wp-toolbar > #wp-admin-bar-top-secondary > #wp-admin-bar-search #adminbarsearch input.adminbar-input:focus {
 	z-index: 10;
-	color: #000;
+	color: var(--wpbuilder-text-dark);
 	width: 200px;
-	background-color: rgba(255, 255, 255, 0.9);
+	background-color: var(--wpbuilder-background-white);
 	cursor: text;
 	border: 0;
 }
@@ -749,8 +749,8 @@ html:lang(he-il) .rtl #wpadminbar * {
 	font-size: 14px;
 	font-weight: 600;
 	padding: 15px 23px 14px;
-	background: #f0f0f1;
-	color: #2271b1;
+	background: var(--wpbuilder-background-light);
+	color: var(--wpbuilder-primary);
 	z-index: 100000;
 	line-height: normal;
 	text-decoration: none;
@@ -758,7 +758,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 
 #wpadminbar .screen-reader-shortcut:focus {
 	top: 7px;
-	background: #f0f0f1;
+	background: var(--wpbuilder-background-light);
 	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
 }
 
@@ -891,7 +891,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 		overflow: hidden;
 		width: 52px;
 		padding: 0;
-		color: #a7aaad; /* @todo not needed? this text is hidden */
+		color: var(--wpbuilder-text-dark); /* @todo not needed? this text is hidden */
 		position: relative;
 	}
 
@@ -998,7 +998,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 		height: auto;
 		font-size: 16px;
 		line-height: 1.5;
-		color: #f0f0f1;
+		color: var(--wpbuilder-text-light);
 	}
 
 	#wpadminbar #wp-admin-bar-user-info a {

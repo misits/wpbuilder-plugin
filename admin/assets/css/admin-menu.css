@@ -252,7 +252,7 @@
 #adminmenu a.wp-has-current-submenu:focus + .wp-submenu li.current a,
 #adminmenu .wp-submenu li.current a:hover,
 #adminmenu .wp-submenu li.current a:focus {
-	color: #fff;
+	color: var(--wpbuilder-text-light);
 }
 
 #adminmenu .wp-not-current-submenu li > a,
@@ -343,7 +343,7 @@ div.wp-menu-image:before {
 #adminmenu a.current:hover div.wp-menu-image:before,
 #adminmenu li.wp-has-current-submenu a:focus div.wp-menu-image:before,
 #adminmenu li.wp-has-current-submenu.opensub div.wp-menu-image:before {
-	color: #fff;
+	color: var(--wpbuilder-text-light);
 }
 
 #adminmenu li:hover div.wp-menu-image:before,
@@ -433,7 +433,7 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 #adminmenu .wp-submenu .wp-submenu-head {
-	color: #fff;
+	color: var(--wpbuilder-text-light);
 	font-weight: 400;
 	font-size: 14px;
 	padding: 5px 4px 5px 11px;
@@ -460,8 +460,8 @@ ul#adminmenu > li.current > a.current:after {
 	min-width: 18px;
 	height: 18px;
 	border-radius: 9px;
-	background-color: #d63638;
-	color: #fff;
+	background-color: var(--wpbuilder-danger);
+	color: var(--wpbuilder-text-light);
 	font-size: 11px;
 	line-height: 1.6;
 	text-align: center;
@@ -470,8 +470,8 @@ ul#adminmenu > li.current > a.current:after {
 
 #adminmenu li.current a .awaiting-mod,
 #adminmenu li a.wp-has-current-submenu .update-plugins {
-	background-color: #d63638;
-	color: #fff;
+	background-color: var(--wpbuilder-danger);
+	color: var(--wpbuilder-text-light);
 }
 
 #adminmenu li span.count-0 {
@@ -493,11 +493,11 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 #collapse-button:hover {
-	color: #72aee6;
+	color: var(--wpbuilder-primary);
 }
 
 #collapse-button:focus {
-	color: #72aee6;
+	color: var(--wpbuilder-primary);
 	/* Only visible in Windows High Contrast mode */
 	outline: 1px solid transparent;
 	outline-offset: -1px;
@@ -825,7 +825,7 @@ li#wp-admin-bar-menu-toggle {
 	}
 
 	.wp-responsive-open #wpadminbar #wp-admin-bar-menu-toggle a {
-		background: #2c3338;
+		background: var(--wpbuilder-background);
 	}
 
 	li#wp-admin-bar-menu-toggle {
@@ -856,7 +856,7 @@ li#wp-admin-bar-menu-toggle {
 	}
 
 	.wp-responsive-open #wpadminbar #wp-admin-bar-menu-toggle .ab-icon:before {
-		color: #72aee6;
+		color: var(--wpbuilder-primary);
 	}
 }
 

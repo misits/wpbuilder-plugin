@@ -59,7 +59,7 @@ class Product extends CustomPostType implements \JsonSerializable
         'with_front' => false,
       ),
       'query_var' => true,
-      'menu_icon' => 'dashicons-icon-inventory',
+      'menu_icon' => 'dashicons-icon-inventory_2',
       'supports' =>
       array(
         0 => 'title',
