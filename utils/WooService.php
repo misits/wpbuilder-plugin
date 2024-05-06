@@ -36,6 +36,8 @@ class WooService
 
             // Menu
             self::add_default_pages_to_menu();
+
+            add_filter( 'woocommerce_add_to_cart_form_action', '__return_empty_string' );
         }
     }
 

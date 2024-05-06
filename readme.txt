@@ -23,6 +23,9 @@ Le theme compatible avec le plugin est [wpbuilder-boilerplate](https://github.co
 
 == Changelog ==
 
+= 1.2.2 =
+- Avoid add to carte redirection
+
 = 1.2.1 =
 - Add admin panel style
 

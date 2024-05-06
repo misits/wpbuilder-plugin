@@ -133,6 +133,7 @@ class Product extends CustomPostType implements \JsonSerializable
     global $product;
     $product = $this->get_product();
 
+    // return the form without rendering it
     return do_action('woocommerce_' . $product->get_type() . '_add_to_cart');
   }
 
