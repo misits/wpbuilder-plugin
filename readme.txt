@@ -23,6 +23,9 @@ Le theme compatible avec le plugin est [wpbuilder-boilerplate](https://github.co
 
 == Changelog ==
 
+= 1.3.0 =
+- Add custom post type for Haircut
+
 = 1.2.2 =
 - Avoid add to carte redirection
 

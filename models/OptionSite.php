@@ -72,6 +72,16 @@ class OptionSite extends OptionPage
                 Field::make('text', 'crb_twitter_url', 'Twitter URL'),
                 Field::make('text', 'crb_instagram_url', 'Instagram URL'),
                 Field::make('text', 'crb_linkedin_url', 'LinkedIn URL'),
+            ))
+            ->add_tab(__('Opening Hours', 'wpbuilder'), array(
+                Field::make('complex', 'crb_opening_hours', __('Opening Hours', 'wpbuilder'))
+                    ->add_fields(array(
+                        Field::make('text', 'day', __('Day', 'wpbuilder')),
+                        Field::make('text', 'hours', __('Hours', 'wpbuilder')),
+                    ))
+                    ->set_layout('tabbed-horizontal')
+                    ->set_header_template('<%- day %>')
+                    ->set_collapsed(true),
             ));
 
 
