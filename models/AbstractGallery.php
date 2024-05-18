@@ -5,7 +5,7 @@ namespace WPbuilder\models;
 // Prevent direct access.
 defined( 'ABSPATH' ) or exit;
 
-use WPbuilder\models\AbstractMedia;
+use WPbuilder\models\Media;
 
 abstract class AbstractGallery
 {
@@ -26,7 +26,7 @@ abstract class AbstractGallery
     public function pictures(callable $callback): array
     {
         return array_map(function ($id) use ($callback) {
-            return $callback(new AbstractMedia($id));
+            return $callback(new Media($id));
         }, $this->_data);
     }
 }

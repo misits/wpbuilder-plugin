@@ -82,6 +82,67 @@ class Haircut extends CustomPostType implements \JsonSerializable
       ));
   }
 
+  public static function all_by_category()
+  {
+    $categories = get_terms(array(
+      'taxonomy' => 'haircut_category',
+      'hide_empty' => false,
+    ));
+
+    $haircuts = array();
+
+    foreach ($categories as $category) {
+      $cat = "";
+
+      switch ($category->slug) {
+        case "children":
+          $cat = "Enfants";
+          break;
+        case "men":
+          $cat = "Hommes";
+          break;
+        case "students-18-years-old-and-under":
+          $cat = "Etudiants - 18ans";
+          break;
+        case "women":
+          $cat = "Femmes";
+          break;
+        default:
+          $cat = "Autres";
+          break;
+      }
+
+      $haircuts[$cat] = get_posts(array(
+        'post_type' => self::TYPE,
+        'posts_per_page' => -1,
+        'tax_query' => array(
+          array(
+            'taxonomy' => 'haircut_category',
+            'field' => 'slug',
+            'terms' => $category->slug,
+          ),
+        ),
+      ));
+    }
+
+    // convert to self::class
+    foreach ($haircuts as $category => $posts) {
+      $haircuts[$category] = array_map(function ($post) {
+        return new self($post->ID);
+      }, $posts);
+    }
+
+    // order Femmes, Hommes, Etudiants - 18ans, Enfant, Autres
+    $haircuts = array(
+      "Femmes" => $haircuts["Femmes"],
+      "Hommes" => $haircuts["Hommes"],
+      "Etudiants - 18ans" => $haircuts["Etudiants - 18ans"],
+      "Enfants" => $haircuts["Enfants"],
+    );
+
+    return $haircuts;
+  }
+
   public function jsonSerialize(): mixed
   {
     return [

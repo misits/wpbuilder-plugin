@@ -113,6 +113,53 @@ class Employee extends CustomPostType implements \JsonSerializable
       ));
   }
 
+  public static function all_active(): array
+{
+    $args = array(
+        'post_type' => self::TYPE,
+        'post_status' => 'publish',
+        'posts_per_page' => -1,
+        'orderby' => 'title',
+        'order' => 'ASC',
+    );
+
+    $posts = get_posts($args);
+    $employees = array_map(function ($post) {
+        return new Employee($post->ID);
+    }, $posts);
+
+
+    // Pre-fetch categories for all employees to optimize sorting
+    $employee_categories = [];
+    foreach ($employees as $employee) {
+        $terms = get_the_terms($employee->id(), 'employee_category');
+        $employee_categories[$employee->id()] = $terms ? $terms[0]->name : 'Other';  // Default to 'Other' if no category is found
+    }
+
+    // Define categories order
+    $categories = ['Manager', 'Employee', 'Intern', 'Other'];
+
+    // Sort employees by predefined categories order
+    usort($employees, function ($a, $b) use ($categories, $employee_categories) {
+        $a_category = $employee_categories[$a->id()] ?? 'Other';  // Default to 'Other' if undefined
+        $b_category = $employee_categories[$b->id()] ?? 'Other';
+
+        $a_index = array_search($a_category, $categories) !== false ? array_search($a_category, $categories) : PHP_INT_MAX;
+        $b_index = array_search($b_category, $categories) !== false ? array_search($b_category, $categories) : PHP_INT_MAX;
+
+        return $a_index <=> $b_index;
+    });
+
+    return $employees;
+}
+
+public function job(): string
+{
+  $terms = get_the_terms($this->id(), 'employee_category');
+
+  return $terms ? $terms[0]->name : 'Other';
+}
+
   public function jsonSerialize(): mixed
   {
     return [

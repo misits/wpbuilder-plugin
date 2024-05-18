@@ -19,3 +19,11 @@ function render_partial($view, $data = [])
     include implode(DIRECTORY_SEPARATOR, $path) . ".php";
     return ob_get_clean();
 }
+
+function formatPhoneNumberForLink($phoneNumber) {
+    // Remove any character that is not a digit or a plus sign.
+    $cleanedNumber = preg_replace('/[^\d+]/', '', $phoneNumber);
+
+    // Generate the anchor tag with the cleaned phone number.
+    return $cleanedNumber;
+}
