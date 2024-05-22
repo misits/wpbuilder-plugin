@@ -37,3 +37,7 @@ To update the plugin, change the version in `readme.txt` and `wpbuilder-plugin.p
 - [ ] More default CPTs
 - [ ] More default blocks
 - [ ] Default layouts to fasten the development process
+
+## Looking for a web hosting provider?
+
+<a href="https://www.infomaniak.com/goto/fr/home?utm_term=664daa56ccbad"><img src="https://affiliation.storage5.infomaniak.com/banners/medium_rectanglesite-general_fr.png"></a>
