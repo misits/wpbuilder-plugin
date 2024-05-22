@@ -40,4 +40,4 @@ To update the plugin, change the version in `readme.txt` and `wpbuilder-plugin.p
 
 ## Looking for a web hosting provider?
 
-<a href="https://www.infomaniak.com/goto/fr/home?utm_term=664daa56ccbad"><img src="https://affiliation.storage5.infomaniak.com/banners/medium_rectanglesite-general_fr.png"></a>
+<a href="https://www.infomaniak.com/goto/fr/hosting.web?utm_term=664daa56ccbad"><img src="https://affiliation.storage5.infomaniak.com/banners/leaderboardhebergement_fr.jpg"></a>
