@@ -23,6 +23,9 @@ Le theme compatible avec le plugin est [wpbuilder-boilerplate](https://github.co
 
 == Changelog ==
 
+= 1.5.0 =
+- Add webp support by default
+
 = 1.4.2 =
 - Fix crb empty field check
 

@@ -313,15 +313,15 @@ class Size
         if ($attachment_id < 1 || empty($size)) {
             return [];
         }
-
+    
         // If size is 'full', we don't need a fly image
         if ("full" === $size) {
             return wp_get_attachment_image_src($attachment_id, "full");
         }
-
+    
         // Get the attachment image
         $image = wp_get_attachment_metadata($attachment_id);
-
+    
         if (false !== $image && $image) {
             // Determine width and height based on size
             switch (gettype($size)) {
@@ -341,20 +341,36 @@ class Size
                 default:
                     return [];
             }
-
-            // Get file path
+    
+            // Get file paths
             $fly_dir = $this->get_fly_dir($attachment_id);
-            $fly_file_path =
-                $fly_dir .
-                DIRECTORY_SEPARATOR .
-                $this->get_fly_file_name(
-                    basename($image["file"]),
-                    $width,
-                    $height,
-                    $crop
-                );
-
-            // Check if file exsists
+            $fly_file_path = $fly_dir . DIRECTORY_SEPARATOR . $this->get_fly_file_name(
+                basename($image["file"]),
+                $width,
+                $height,
+                $crop
+            );
+            $fly_webp_path = $fly_dir . DIRECTORY_SEPARATOR . $this->get_fly_file_name(
+                basename($image["file"]),
+                $width,
+                $height,
+                $crop,
+                true // Check for .webp
+            );
+    
+            // Check if WebP file exists
+            if (file_exists($fly_webp_path)) {
+                $image_size = getimagesize($fly_webp_path);
+                if (!empty($image_size)) {
+                    return [
+                        "src" => $this->get_fly_path($fly_webp_path),
+                        "width" => $image_size[0],
+                        "height" => $image_size[1],
+                    ];
+                }
+            }
+    
+            // Check if original file exists
             if (file_exists($fly_file_path)) {
                 $image_size = getimagesize($fly_file_path);
                 if (!empty($image_size)) {
@@ -364,40 +380,51 @@ class Size
                         "height" => $image_size[1],
                     ];
                 }
-
-                return [];
             }
-
-            // Check if images directory is writeable
+    
+            // Check if images directory is writable
             if (!$this->fly_dir_writable()) {
                 return [];
             }
-
-            // File does not exist, lets check if directory exists
+    
+            // File does not exist, let's check if directory exists
             $this->check_fly_dir();
-
+    
             // Get WP Image Editor Instance
             $image_path = get_attached_file($attachment_id);
-
             $image_editor = wp_get_image_editor($image_path);
             if (!is_wp_error($image_editor)) {
                 // Create new image
                 $image_editor->resize($width, $height, $crop);
                 $image_editor->save($fly_file_path);
-
+    
+                // Check if WebP format is supported
+                if (function_exists('imagewebp') && $image_editor->supports_mime_type('image/webp')) {
+                    $image_editor->save($fly_webp_path, 'image/webp', ['quality' => 75, 'strip_metadata' => true]);
+                }
+    
                 // Trigger action
                 do_action("fly_image_created", $attachment_id, $fly_file_path);
-
-                // Image created, return its data
-                $image_dimensions = $image_editor->get_size();
-                return [
-                    "src" => $this->get_fly_path($fly_file_path),
-                    "width" => $image_dimensions["width"],
-                    "height" => $image_dimensions["height"],
-                ];
+    
+                // Return WebP if it exists, otherwise return original
+                if (file_exists($fly_webp_path)) {
+                    $image_dimensions = $image_editor->get_size();
+                    return [
+                        "src" => $this->get_fly_path($fly_webp_path),
+                        "width" => $image_dimensions["width"],
+                        "height" => $image_dimensions["height"],
+                    ];
+                } else {
+                    $image_dimensions = $image_editor->get_size();
+                    return [
+                        "src" => $this->get_fly_path($fly_file_path),
+                        "width" => $image_dimensions["width"],
+                        "height" => $image_dimensions["height"],
+                    ];
+                }
             }
         }
-
+    
         // Something went wrong
         return [];
     }
@@ -488,37 +515,40 @@ class Size
      * @param  boolean $crop
      * @return string
      */
-    public function get_fly_file_name($file_name, $width, $height, $crop)
-    {
-        $file_name_only = pathinfo($file_name, PATHINFO_FILENAME);
-        $file_extension = pathinfo($file_name, PATHINFO_EXTENSION);
+    public function get_fly_file_name($file_name, $width, $height, $crop, $webp = false)
+{
+    $file_name_only = pathinfo($file_name, PATHINFO_FILENAME);
+    $file_extension = pathinfo($file_name, PATHINFO_EXTENSION);
 
-        $crop_extension = "";
-        if (true === $crop) {
-            $crop_extension = "-c";
-        } elseif (is_array($crop)) {
-            $crop_extension =
-                "-" .
-                implode(
-                    "",
-                    array_map(function ($position) {
-                        return $position[0];
-                    }, $crop)
-                );
-        }
-
-        /**
-         * Note: intval() for width and height is based on Image_Processor::resize()
-         */
-        return $file_name_only .
+    $crop_extension = "";
+    if (true === $crop) {
+        $crop_extension = "-c";
+    } elseif (is_array($crop)) {
+        $crop_extension =
             "-" .
-            intval($width) .
-            "x" .
-            intval($height) .
-            $crop_extension .
-            "." .
-            $file_extension;
+            implode(
+                "",
+                array_map(function ($position) {
+                    return $position[0];
+                }, $crop)
+            );
     }
+
+    // If WebP is requested, change the extension to .webp
+    if ($webp) {
+        $file_extension = "webp";
+    }
+
+    // Construct the final file name without appending the original extension twice
+    return $file_name_only .
+        "-" .
+        intval($width) .
+        "x" .
+        intval($height) .
+        $crop_extension .
+        "." .
+        $file_extension;
+}
 
     /**
      * Get the full path of an image based on it's absolute path.
