@@ -4,7 +4,7 @@
  * Plugin Name: WPbuilder
  * Description: WPbuilder Theme Plugin
  * Plugin URI: https://github.com/misits/wpbuilder-plugin
- * Version: 1.3.1
+ * Version: 1.4.0
  * Requires at least: 5.2
  * Requires PHP: 8.0
  * Author: Martin IS IT Services
@@ -70,6 +70,7 @@ $to_register = [
     '\\WPbuilder\\utils\\RegisterService',
     '\\WPbuilder\\utils\\WooService',
     '\\WPbuilder\\utils\\MenuService',
+    '\\WPbuilder\\utils\\MediaLibraryService',
 ];
 
 add_action('init', function () use ($to_register) {

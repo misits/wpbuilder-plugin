@@ -1,0 +1,61 @@
+#create-folder-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+}
+
+#create-folder-modal {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    z-index: 9999;
+    border-radius: 5px;
+    width: 300px;
+}
+
+#create-folder-modal input, #create-folder-modal select {
+    width: 100%;
+}
+
+#create-folder-modal h2 {
+    margin-top: 0;
+}
+
+#create-folder-modal button {
+    margin-right: 10px;
+}
+
+#media-folder-tree-container {
+    background: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-width: 300px;
+}
+
+.media-folder-tree {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.media-folder-tree li {
+    margin: 5px 0;
+}
+
+.media-folder-tree .media-folder-link {
+    text-decoration: none;
+    color: #0073aa;
+    cursor: pointer;
+}
+
+.media-folder-tree .media-folder-link:hover {
+    text-decoration: underline;
+}

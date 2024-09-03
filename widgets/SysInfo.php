@@ -23,7 +23,11 @@ class SysInfo extends \WP_Widget
         wp_add_dashboard_widget(
             'system_info_dashboard_widget', // Widget slug.
             'System Information', // Title.
-            array($this, 'display_system_info') // Display function.
+            array($this, 'display_system_info'), // Display function.
+            null, // Control callback.
+            null, // Control arguments.
+            'column4', // Location.
+            'low', // Location.
         );
     }
 

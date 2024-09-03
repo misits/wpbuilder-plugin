@@ -67,12 +67,12 @@ class Haircut extends CustomPostType implements \JsonSerializable
     Container::make('post_meta', __('Haircut', 'wpbuilder'))
       ->where('post_type', '=', self::TYPE)
       ->add_tab(__('Details', 'wpbuilder'), array(
-        Field::make('text', 'title', __('Title', 'wpbuilder')),
-        Field::make('text', 'price', __('Price', 'wpbuilder')),
-        Field::make('text', 'duration', __('Duration', 'wpbuilder')),
-        Field::make('text', 'description', __('Description', 'wpbuilder')),
+        Field::make('text', 'crb_title', __('Title', 'wpbuilder')),
+        Field::make('text', 'crb_price', __('Price', 'wpbuilder')),
+        Field::make('text', 'crb_duration', __('Duration', 'wpbuilder')),
+        Field::make('text', 'crb_description', __('Description', 'wpbuilder')),
         // select category from dropdown
-        Field::make('association', 'category', __('Category', 'wpbuilder'))
+        Field::make('association', 'crb_category', __('Category', 'wpbuilder'))
           ->set_types(array(
             array(
               'type' => 'term',
