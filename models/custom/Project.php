@@ -76,13 +76,13 @@ class Project extends CustomPostType implements \JsonSerializable
       ->add_tab(__('Images', 'wpbuilder'), array(
         Field::make('complex', 'crb_gallery', __('Gallery', 'wpbuilder'))
           ->set_layout('tabbed-vertical')
-          ->set_header_template('<%- title %>')
           ->set_collapsed(true)
           ->add_fields(array(
-            Field::make('image', 'image', __('Image', 'wpbuilder')),
-            Field::make('text', 'title', __('Title', 'wpbuilder')),
-            Field::make('text', 'description', __('Description', 'wpbuilder')),
-          )),
+            Field::make('image', 'crb_image', __('Image', 'wpbuilder')),
+            Field::make('text', 'crb_title', __('Title', 'wpbuilder')),
+            Field::make('text', 'crb_description', __('Description', 'wpbuilder')),
+          ))
+          ->set_header_template('<%- crb_title %>'),
       ))
       ->add_tab(__('Associated content', 'wpbuilder'), array(
         Field::make('text', 'crb_link', __('Link', 'wpbuilder'))
