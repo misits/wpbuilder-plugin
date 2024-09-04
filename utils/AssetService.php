@@ -109,6 +109,19 @@ class AssetService
                         "vite-wordpress-wpbuilder-plugin-css-" . basename($file, ".css"),
                         WPBUILDER_THEME_URL . "/public/css/" . $file,
                         [],
+                        null
+                    );
+                    add_filter(
+                        'style_loader_tag',
+                        function ($tag, $handle) use ($file) {
+                            if ($handle === "vite-wordpress-wpbuilder-plugin-css-" . basename($file, ".css")) {
+                                // Preload the CSS file to avoid render-blocking
+                                $tag = '<link rel="stylesheet" href="' . esc_url(WPBUILDER_THEME_URL . "/public/css/" . $file) . '" media="print" onload="this.media=\'all\'">';
+                            }
+                            return $tag;
+                        },
+                        10,
+                        2
                     );
                 }
             }
@@ -197,13 +210,13 @@ class AssetService
                     WPBUILDER_THEME_URL . "/public/js/" . $file,
                     [],
                     null,
-                    true
+                    true // Load in footer
                 );
                 add_filter(
                     "script_loader_tag",
                     function ($tag, $handle, $src) use ($file) {
                         if ($handle === "vite-wordpress-wpbuilder-plugin-js-" . basename($file, ".js")) {
-                            $tag = '<script type="module" src="' . esc_url($src) . '"></script>';
+                            $tag = '<script type="module" src="' . esc_url($src) . '" defer></script>';
                         }
                         return $tag;
                     },

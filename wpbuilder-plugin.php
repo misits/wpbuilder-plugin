@@ -4,7 +4,7 @@
  * Plugin Name: WPbuilder
  * Description: WPbuilder Theme Plugin
  * Plugin URI: https://github.com/misits/wpbuilder-plugin
- * Version: 1.5.0
+ * Version: 1.5.1
  * Requires at least: 5.2
  * Requires PHP: 8.0
  * Author: Martin IS IT Services
