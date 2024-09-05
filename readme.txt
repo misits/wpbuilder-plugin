@@ -23,6 +23,9 @@ Le theme compatible avec le plugin est [wpbuilder-boilerplate](https://github.co
 
 == Changelog ==
 
+= 1.5.2 =
+- Update carbon fields for maintenance mode
+
 = 1.5.1 =
 - Update script & css to avoid blocking render
 

@@ -91,7 +91,7 @@ class OptionSite extends OptionPage
                 Field::make('checkbox', 'crb_maintenance_mode', __('Enable Maintenance Mode', 'wpbuilder')),
                 Field::make('text', 'crb_maintenance_title', __('Title', 'wpbuilder'))
                     ->set_default_value(__('Maintenance Mode', 'wpbuilder')),
-                Field::make('textarea', 'crb_maintenance_description', __('Description', 'wpbuilder'))
+                Field::make('rich_text', 'crb_maintenance_description', __('Description', 'wpbuilder'))
                     ->set_default_value(__('We are currently performing maintenance on our website. We will be back soon!', 'wpbuilder'))
                     ->set_rows(6),
             ));
