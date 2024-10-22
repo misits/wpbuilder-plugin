@@ -83,6 +83,8 @@ class Product extends CustomPostType implements \JsonSerializable
       "slug" => $this->slug(),
       "link" => $this->link(),
       "excerpt" => $this->excerpt(),
+      "content" => $this->content(),
+      "date" => $this->date(),
     ];
   }
 
@@ -93,6 +95,17 @@ class Product extends CustomPostType implements \JsonSerializable
     }
 
     return $this->_product;
+  }
+
+  public static function update_cart_count() {
+      echo WC()->cart->get_cart_contents_count();
+      wp_die();
+  }
+
+  public static function get_cart_count() {
+      $count = WC()->cart->get_cart_contents_count();
+      error_log($count);
+      return wp_send_json(['count' => $count]);
   }
 
   public function has_price()
