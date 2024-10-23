@@ -92,6 +92,17 @@ class Project extends CustomPostType implements \JsonSerializable
       ));
   }
 
+  public function get_categories($seprator = ', '): string
+  {
+    $categories = get_the_terms($this->id(), 'project_category');
+
+    if (is_wp_error($categories) || empty($categories)) {
+      return '';
+    }
+
+    return implode($seprator, $categories);
+  }
+
   public function jsonSerialize(): mixed
   {
     return [

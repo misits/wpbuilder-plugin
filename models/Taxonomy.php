@@ -18,7 +18,7 @@ abstract class Taxonomy implements \JsonSerializable
 
     public static function all(callable $callback = null): array
     {
-        $terms = get_categories(["taxonomy" => static::TYPE]);
+        $terms = get_categories(["taxonomy" => static::TYPE, 'hide_empty' => false]);
 
         return array_map(function ($term) use ($callback) {
             return $callback ? $callback(new static($term)) : new static($term);

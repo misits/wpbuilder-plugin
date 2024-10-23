@@ -84,6 +84,7 @@ class Employee extends CustomPostType implements \JsonSerializable
         Field::make('text', 'crb_employee_npa', __('NPA', 'wpbuilder')),
         Field::make('text', 'crb_employee_city', __('City', 'wpbuilder')),
         Field::make('text', 'crb_employee_country', __('Country', 'wpbuilder')),
+        Field::make('date', 'crb_employee_sincedate', __('Since date', 'wpbuilder')),
       ))
       ->add_tab(__('Communication', 'wpbuilder'), array(
         Field::make('text', 'crb_employee_phone', __('Phone', 'wpbuilder')),
@@ -158,6 +159,23 @@ public function job(): string
   $terms = get_the_terms($this->id(), 'employee_category');
 
   return $terms ? $terms[0]->name : 'Other';
+}
+
+public function get_roles($seprator = ', '): string
+{
+  $roles = get_the_terms($this->id(), 'employee_category');
+  $departments = get_the_terms($this->id(), 'employee_department_category');
+
+  // implode roles and departments names with ', '
+  $roles = $roles ? array_map(function ($role) {
+      return $role->name;
+  }, $roles) : [];
+
+  $departments = $departments ? array_map(function ($department) {
+      return $department->name;
+  }, $departments) : [];
+
+  return implode($seprator, array_merge($roles, $departments));
 }
 
   public function jsonSerialize(): mixed
